@@ -1,0 +1,79 @@
+{
+  "name": "conversion",
+  "label": "Conversion",
+  "main": "$(extensionPath)/toolboxes/conversion.js",
+  "tools": [
+    {
+      "name": "convert",
+      "label": "Convert JSON5 JSON YAML XML CSV TSV",
+      "options": [
+        {
+          "name": "from",
+          "label": "from",
+          "type": "choice",
+          "description": "",
+          "default": "JSON5",
+          "choices": [
+            {
+              "value": "JSON5",
+              "description": ""
+            },
+            {
+              "value": "JSON",
+              "description": ""
+            },
+            {
+              "value": "YAML",
+              "description": ""
+            },
+            {
+              "value": "XML",
+              "description": ""
+            },
+            {
+              "value": "CSV",
+              "description": ""
+            },
+            {
+              "value": "TSV",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "to",
+          "label": "to",
+          "type": "choice",
+          "description": "",
+          "default": "YAML",
+          "choices": [
+            {
+              "value": "JSON5",
+              "description": ""
+            },
+            {
+              "value": "JSON",
+              "description": ""
+            },
+            {
+              "value": "YAML",
+              "description": ""
+            },
+            {
+              "value": "XML",
+              "description": ""
+            },
+            {
+              "value": "CSV",
+              "description": ""
+            },
+            {
+              "value": "TSV",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

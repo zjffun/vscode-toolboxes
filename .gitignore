@@ -1,0 +1,9 @@
+test.temp
+.vscode/*.code-snippets
+.DS_Store
+
+out
+out-view
+node_modules
+.vscode-test/
+*.vsix

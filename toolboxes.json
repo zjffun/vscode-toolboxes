@@ -1,0 +1,8 @@
+[
+  {
+    "path": "$(extensionPath)/toolboxes/web.json"
+  },
+  {
+    "path": "$(extensionPath)/toolboxes/conversion.json"
+  }
+]

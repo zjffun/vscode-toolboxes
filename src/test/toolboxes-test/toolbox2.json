@@ -1,0 +1,15 @@
+{
+  "name": "toolbox2",
+  "label": "toolbox2",
+  "main": "$(extensionPath)/src/test/toolboxes-test/toolbox2.js",
+  "tools": [
+    {
+      "name": "tool1",
+      "label": "tool1"
+    },
+    {
+      "name": "tool2",
+      "label": "tool2"
+    }
+  ]
+}

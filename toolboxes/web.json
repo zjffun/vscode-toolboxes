@@ -1,0 +1,487 @@
+{
+  "name": "web",
+  "label": "web",
+  "main": "$(extensionPath)/toolboxes/web.js",
+  "tools": [
+    {
+      "label": "URL Encode",
+      "name": "url-encode",
+      "options": [
+        {
+          "name": "type",
+          "label": "type",
+          "type": "choice",
+          "default": "encodeURIComponent",
+          "description": "",
+          "choices": [
+            {
+              "value": "encodeURIComponent",
+              "description": "encodeURIComponent"
+            },
+            {
+              "value": "encodeURI",
+              "description": "encodeURI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "URL Decode",
+      "name": "url-decode",
+      "options": [
+        {
+          "name": "type",
+          "label": "type",
+          "type": "choice",
+          "default": "decodeURIComponent",
+          "description": "",
+          "choices": [
+            {
+              "value": "decodeURIComponent",
+              "description": "decodeURIComponent"
+            },
+            {
+              "value": "decodeURI",
+              "description": "decodeURI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "URL Parse",
+      "name": "url-parse"
+    },
+    {
+      "label": "HTML Encode",
+      "name": "html-encode"
+    },
+    {
+      "label": "HTML Decode",
+      "name": "html-decode"
+    },
+    {
+      "label": "Base64 Encode",
+      "name": "base64-encode"
+    },
+    {
+      "label": "Base64 Decode",
+      "name": "base64-decode"
+    },
+    {
+      "label": "Prettier",
+      "name": "prettier",
+      "options": [
+        {
+          "label": "parser",
+          "name": "parser",
+          "since": "0.0.10",
+          "category": "Global",
+          "type": "choice",
+          "description": "Which parser to use.",
+          "choices": [
+            {
+              "value": "flow",
+              "description": "Flow"
+            },
+            {
+              "value": "babel",
+              "since": "1.16.0",
+              "description": "JavaScript"
+            },
+            {
+              "value": "babel-flow",
+              "since": "1.16.0",
+              "description": "Flow"
+            },
+            {
+              "value": "babel-ts",
+              "since": "2.0.0",
+              "description": "TypeScript"
+            },
+            {
+              "value": "typescript",
+              "since": "1.4.0",
+              "description": "TypeScript"
+            },
+            {
+              "value": "espree",
+              "since": "2.2.0",
+              "description": "JavaScript"
+            },
+            {
+              "value": "meriyah",
+              "since": "2.2.0",
+              "description": "JavaScript"
+            },
+            {
+              "value": "css",
+              "since": "1.7.1",
+              "description": "CSS"
+            },
+            {
+              "value": "less",
+              "since": "1.7.1",
+              "description": "Less"
+            },
+            {
+              "value": "scss",
+              "since": "1.7.1",
+              "description": "SCSS"
+            },
+            {
+              "value": "json",
+              "since": "1.5.0",
+              "description": "JSON"
+            },
+            {
+              "value": "json5",
+              "since": "1.13.0",
+              "description": "JSON5"
+            },
+            {
+              "value": "json-stringify",
+              "since": "1.13.0",
+              "description": "JSON.stringify"
+            },
+            {
+              "value": "graphql",
+              "since": "1.5.0",
+              "description": "GraphQL"
+            },
+            {
+              "value": "markdown",
+              "since": "1.8.0",
+              "description": "Markdown"
+            },
+            {
+              "value": "mdx",
+              "since": "1.15.0",
+              "description": "MDX"
+            },
+            {
+              "value": "vue",
+              "since": "1.10.0",
+              "description": "Vue"
+            },
+            {
+              "value": "yaml",
+              "since": "1.14.0",
+              "description": "YAML"
+            },
+            {
+              "value": "glimmer",
+              "since": "2.3.0",
+              "description": "Ember / Handlebars"
+            },
+            {
+              "value": "html",
+              "since": "1.15.0",
+              "description": "HTML"
+            },
+            {
+              "value": "angular",
+              "since": "1.15.0",
+              "description": "Angular"
+            },
+            {
+              "value": "lwc",
+              "since": "1.17.0",
+              "description": "Lightning Web Components"
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--parser"
+        },
+        {
+          "label": "printWidth",
+          "name": "printWidth",
+          "since": "0.0.0",
+          "category": "Global",
+          "type": "int",
+          "default": 80,
+          "description": "The line length where Prettier will try wrap.",
+          "range": {
+            "start": 0,
+            "end": null,
+            "step": 1
+          },
+          "pluginDefaults": {},
+          "cliName": "--print-width"
+        },
+        {
+          "label": "tabWidth",
+          "name": "tabWidth",
+          "type": "int",
+          "category": "Global",
+          "default": 2,
+          "description": "Number of spaces per indentation level.",
+          "range": {
+            "start": 0,
+            "end": null,
+            "step": 1
+          },
+          "pluginDefaults": {},
+          "cliName": "--tab-width"
+        },
+        {
+          "label": "useTabs",
+          "name": "useTabs",
+          "since": "1.0.0",
+          "category": "Global",
+          "type": "boolean",
+          "default": false,
+          "description": "Indent with tabs instead of spaces.",
+          "pluginDefaults": {},
+          "cliName": "--use-tabs"
+        },
+        {
+          "label": "semi",
+          "name": "semi",
+          "since": "1.0.0",
+          "category": "JavaScript",
+          "type": "boolean",
+          "default": true,
+          "description": "Print semicolons.",
+          "oppositeDescription": "Do not print semicolons, except at the beginning of lines which may need them.",
+          "pluginDefaults": {},
+          "inverted": true,
+          "cliName": "--no-semi"
+        },
+        {
+          "label": "singleQuote",
+          "name": "singleQuote",
+          "since": "0.0.0",
+          "category": "Common",
+          "type": "boolean",
+          "default": false,
+          "description": "Use single quotes instead of double quotes.",
+          "pluginDefaults": {},
+          "cliName": "--single-quote"
+        },
+        {
+          "label": "bracketSpacing",
+          "name": "bracketSpacing",
+          "since": "0.0.0",
+          "category": "Common",
+          "type": "boolean",
+          "default": true,
+          "description": "Print spaces between brackets.",
+          "oppositeDescription": "Do not print spaces between brackets.",
+          "pluginDefaults": {},
+          "inverted": true,
+          "cliName": "--no-bracket-spacing"
+        },
+        {
+          "label": "jsxSingleQuote",
+          "name": "jsxSingleQuote",
+          "since": "1.15.0",
+          "category": "JavaScript",
+          "type": "boolean",
+          "default": false,
+          "description": "Use single quotes in JSX.",
+          "pluginDefaults": {},
+          "cliName": "--jsx-single-quote"
+        },
+        {
+          "label": "quoteProps",
+          "name": "quoteProps",
+          "since": "1.17.0",
+          "category": "JavaScript",
+          "type": "choice",
+          "default": "as-needed",
+          "description": "Change when properties in objects are quoted.",
+          "choices": [
+            {
+              "value": "as-needed",
+              "description": "Only add quotes around object properties where required."
+            },
+            {
+              "value": "consistent",
+              "description": "If at least one property in an object requires quotes, quote all properties."
+            },
+            {
+              "value": "preserve",
+              "description": "Respect the input use of quotes in object properties."
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--quote-props"
+        },
+        {
+          "label": "arrowParens",
+          "name": "arrowParens",
+          "since": "1.9.0",
+          "category": "JavaScript",
+          "type": "choice",
+          "default": "always",
+          "description": "Include parentheses around a sole arrow function parameter.",
+          "choices": [
+            {
+              "value": "always",
+              "description": "Always include parens. Example: `(x) => x`"
+            },
+            {
+              "value": "avoid",
+              "description": "Omit parens when possible. Example: `x => x`"
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--arrow-parens"
+        },
+        {
+          "label": "trailingComma",
+          "name": "trailingComma",
+          "since": "0.0.0",
+          "category": "JavaScript",
+          "type": "choice",
+          "default": "es5",
+          "description": "Print trailing commas wherever possible when multi-line.",
+          "choices": [
+            {
+              "value": "es5",
+              "description": "Trailing commas where valid in ES5 (objects, arrays, etc.)"
+            },
+            {
+              "value": "none",
+              "description": "No trailing commas."
+            },
+            {
+              "value": "all",
+              "description": "Trailing commas wherever possible (including function arguments)."
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--trailing-comma"
+        },
+        {
+          "label": "proseWrap",
+          "name": "proseWrap",
+          "since": "1.8.2",
+          "category": "Common",
+          "type": "choice",
+          "default": "preserve",
+          "description": "How to wrap prose.",
+          "choices": [
+            {
+              "since": "1.9.0",
+              "value": "always",
+              "description": "Wrap prose if it exceeds the print width."
+            },
+            {
+              "since": "1.9.0",
+              "value": "never",
+              "description": "Do not wrap prose."
+            },
+            {
+              "since": "1.9.0",
+              "value": "preserve",
+              "description": "Wrap prose as-is."
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--prose-wrap"
+        },
+        {
+          "label": "htmlWhitespaceSensitivity",
+          "name": "htmlWhitespaceSensitivity",
+          "since": "1.15.0",
+          "category": "HTML",
+          "type": "choice",
+          "default": "css",
+          "description": "How to handle whitespaces in HTML.",
+          "choices": [
+            {
+              "value": "css",
+              "description": "Respect the default value of CSS display property."
+            },
+            {
+              "value": "strict",
+              "description": "Whitespaces are considered sensitive."
+            },
+            {
+              "value": "ignore",
+              "description": "Whitespaces are considered insensitive."
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--html-whitespace-sensitivity"
+        },
+        {
+          "label": "insertPragma",
+          "name": "insertPragma",
+          "since": "1.8.0",
+          "category": "Special",
+          "type": "boolean",
+          "default": false,
+          "description": "Insert @format pragma into file's first docblock comment.",
+          "pluginDefaults": {},
+          "cliName": "--insert-pragma"
+        },
+        {
+          "label": "requirePragma",
+          "name": "requirePragma",
+          "since": "1.7.0",
+          "category": "Special",
+          "type": "boolean",
+          "default": false,
+          "description": "Require either '@prettier' or '@format' to be present in the file's first docblock comment\nin order for it to be formatted.",
+          "pluginDefaults": {},
+          "cliName": "--require-pragma"
+        },
+        {
+          "label": "vueIndentScriptAndStyle",
+          "name": "vueIndentScriptAndStyle",
+          "since": "1.19.0",
+          "category": "HTML",
+          "type": "boolean",
+          "default": false,
+          "description": "Indent script and style tags in Vue files.",
+          "pluginDefaults": {},
+          "cliName": "--vue-indent-script-and-style"
+        },
+        {
+          "label": "embeddedLanguageFormatting",
+          "name": "embeddedLanguageFormatting",
+          "since": "2.1.0",
+          "category": "Global",
+          "type": "choice",
+          "default": "auto",
+          "description": "Control how Prettier formats quoted code embedded in the file.",
+          "choices": [
+            {
+              "value": "auto",
+              "description": "Format embedded code if Prettier can automatically identify it."
+            },
+            {
+              "value": "off",
+              "description": "Never automatically format embedded code."
+            }
+          ],
+          "pluginDefaults": {},
+          "cliName": "--embedded-language-formatting"
+        },
+        {
+          "label": "bracketSameLine",
+          "name": "bracketSameLine",
+          "since": "2.4.0",
+          "category": "Common",
+          "type": "boolean",
+          "default": false,
+          "description": "Put > of opening tags on the last line instead of on a new line.",
+          "pluginDefaults": {},
+          "cliName": "--bracket-same-line"
+        }
+      ],
+      "optionCategories": [
+        "Global",
+        "Common",
+        "JavaScript",
+        "Markdown",
+        "HTML",
+        "Special"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,9 @@ const XMLJS = require("xml-js");
 const YAML = require("YAML");
 const JSON5 = require("json5");
 
-let d3dsv = import("d3-dsv");
+// TypeError [ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING]: A dynamic import callback was not specified.
+// let d3dsv = import("d3-dsv");
+const d3dsv = require("./pkgs/d3-dsv.js");
 
 const CSV = {
   async parse(csv) {

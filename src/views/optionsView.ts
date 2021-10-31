@@ -126,7 +126,7 @@ export default class OptionsView implements vscode.WebviewViewProvider {
           <vscode-progress-ring></vscode-progress-ring>
         </div>
         
-				<script nonce="${nonce}" type="module" src="${scriptUri}" defer></script>
+				<script nonce="${nonce}" src="${scriptUri}" defer></script>
 			</body>
 			</html>`;
   }

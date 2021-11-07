@@ -1,0 +1,25 @@
+{
+  "name": "git",
+  "label": "Git",
+  "main": "./git.js",
+  "tools": [
+    {
+      "name": "statistic",
+      "label": "Statistic",
+      "options": [
+        {
+          "name": "folder",
+          "label": "folder",
+          "type": "folder",
+          "description": ""
+        },
+        {
+          "name": "author",
+          "label": "author",
+          "type": "string",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

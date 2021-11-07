@@ -47,7 +47,7 @@ export default class OptionsView implements vscode.WebviewViewProvider {
     const toolCase = casesService.currentToolCase;
     if (toolCase) {
       await casesService.upsertCase({ ...toolCase, optionValues: values });
-      writeOutput();
+      await writeOutput();
     }
   }
 
@@ -72,10 +72,29 @@ export default class OptionsView implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage((data) => {
       switch (data.type) {
-        case "setValues": {
+        case "setValues":
           this.setValues(data.payload);
           break;
-        }
+        case "showOpenDialog":
+          (async () => {
+            const options: vscode.OpenDialogOptions = {
+              canSelectMany: false,
+              filters: {
+                "All files": ["*"],
+              },
+              ...data.payload.options,
+            };
+
+            const fileUris = await vscode.window.showOpenDialog(options);
+            const fileUri = fileUris?.[0];
+            this.webview?.postMessage({
+              type: "showOpenDialogResult",
+              payload: {
+                fsPath: fileUri ? fileUri.fsPath : undefined,
+              },
+            });
+          })();
+          break;
       }
     });
   }

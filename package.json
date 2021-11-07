@@ -73,9 +73,24 @@
           "command": "toolboxes.showOutput",
           "when": "resourceScheme == toolboxes-input",
           "group": "navigation"
+        },
+        {
+          "command": "toolboxes.runTool",
+          "when": "resourceScheme == toolboxes-input",
+          "group": "navigation"
         }
       ],
       "view/title": [
+        {
+          "command": "toolboxes.addToolbox",
+          "when": "view == toolboxes-activitybarView-toolboxesView",
+          "group": "navigation@9"
+        },
+        {
+          "command": "toolboxes.refreshToolboxes",
+          "when": "view == toolboxes-activitybarView-toolboxesView",
+          "group": "navigation@10"
+        },
         {
           "command": "toolboxes.refreshOptions",
           "when": "view == toolboxes-activitybarView-optionsView",
@@ -89,6 +104,10 @@
       ],
       "commandPalette": [
         {
+          "command": "toolboxes.runTool",
+          "when": "resourceScheme == toolboxes-input"
+        },
+        {
           "command": "toolboxes.showOutput",
           "when": "resourceScheme == toolboxes-input"
         },
@@ -99,10 +118,6 @@
         {
           "command": "toolboxes.refreshCases",
           "when": "resourceScheme == toolboxes-input"
-        },
-        {
-          "command": "snippetsmanager.showEditor",
-          "when": "resourceExtname == '.code-snippets' && !snippetsmanagerCodeSnippetsEditorFocus"
         },
         {
           "command": "_toolboxes.showTool",
@@ -124,19 +139,40 @@
     },
     "commands": [
       {
+        "command": "toolboxes.runTool",
+        "title": "Run Tool",
+        "icon": "$(run)",
+        "category": "Toolboxes"
+      },
+      {
+        "command": "toolboxes.addToolbox",
+        "title": "Add Toolbox",
+        "icon": "$(add)",
+        "category": "Toolboxes"
+      },
+      {
         "command": "toolboxes.showOutput",
         "title": "Show Output",
-        "icon": "$(book)"
+        "icon": "$(book)",
+        "category": "Toolboxes"
+      },
+      {
+        "command": "toolboxes.refreshToolboxes",
+        "title": "Refresh Toolboxes",
+        "icon": "$(refresh)",
+        "category": "Toolboxes"
       },
       {
         "command": "toolboxes.refreshOptions",
-        "title": "Show Output",
-        "icon": "$(refresh)"
+        "title": "Refresh Options",
+        "icon": "$(refresh)",
+        "category": "Toolboxes"
       },
       {
         "command": "toolboxes.refreshCases",
-        "title": "Show Output",
-        "icon": "$(refresh)"
+        "title": "Refresh Cases",
+        "icon": "$(refresh)",
+        "category": "Toolboxes"
       },
       {
         "command": "_toolboxes.showTool",

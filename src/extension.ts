@@ -16,7 +16,10 @@ import { registerHelpAndFeedbackView } from "./views/helpAndFeedbackView";
 import OptionsView from "./views/optionsView";
 import ToolboxesView from "./views/toolboxesView";
 import { ToolboxesService } from "./core/toolboxesService";
+import addToolbox, { addToolboxCommandId } from "./commands/addToolbox";
+import runTool, { runToolCommandId } from "./commands/runTool";
 
+export let toolboxesView: ToolboxesView;
 export let optionsView: OptionsView;
 export let casesView: CasesView;
 export let casesService: CasesService;
@@ -51,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
     { isReadonly: true }
   );
 
-  new ToolboxesView(context);
+  toolboxesView = new ToolboxesView(context);
 
   optionsView = new OptionsView();
 
@@ -60,6 +63,32 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   casesView = new CasesView();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(runToolCommandId, runTool)
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(addToolboxCommandId, addToolbox)
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("toolboxes.refreshToolboxes", async () => {
+      return toolboxesView.refresh();
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("toolboxes.refreshOptions", async () => {
+      return optionsView.refresh();
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("toolboxes.refreshCases", async () => {
+      return casesView.refresh();
+    })
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("toolboxes.showOutput", async () => {

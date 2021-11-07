@@ -1,6 +1,7 @@
+import * as path from "path";
 import * as vscode from "vscode";
 import { ITool, IToolboxMetadata, IToolContainer } from "..";
-import { inputScheme } from "./input";
+import { ToolCaseType } from "../enum";
 import { casesService } from "../extension";
 import {
   context,
@@ -8,7 +9,7 @@ import {
   safeGetGlobalStorageUri,
   safeReadFileContent,
 } from "../share";
-import { ToolCaseType } from "../enum";
+import { inputScheme } from "./input";
 
 export class ToolboxesService {
   private toolboxesUri: Promise<vscode.Uri>;
@@ -79,6 +80,14 @@ export class ToolboxesService {
     return undefined;
   }
 
+  getToolFilePath(mainPath: string, toolboxUri: vscode.Uri) {
+    return path.resolve(
+      toolboxUri.fsPath,
+      "../",
+      mainPath.replace("$(extensionPath)", context.extensionPath)
+    );
+  }
+
   async getToolbox(toolboxMetadata: IToolboxMetadata): Promise<IToolContainer> {
     const uri = vscode.Uri.file(
       toolboxMetadata.path.replace("$(extensionPath)", context.extensionPath)
@@ -99,18 +108,18 @@ export class ToolboxesService {
       name: toolboxJSON.name,
       label: toolboxJSON.label,
       uri: toolboxUri,
-      children: toolboxJSON.tools?.map?.(
-        ({ name, label, options, optionCategories }: ITool) => {
-          return {
-            name,
-            label,
-            uri: vscode.Uri.joinPath(toolboxUri, name),
-            optionCategories,
-            options,
-            main: toolboxJSON.main,
-          };
-        }
-      ),
+      children: toolboxJSON.tools?.map?.((tool: ITool) => {
+        const { name, label, options, optionCategories } = tool;
+        return {
+          ...tool,
+          name,
+          label,
+          uri: vscode.Uri.joinPath(toolboxUri, name),
+          optionCategories,
+          options,
+          main: this.getToolFilePath(toolboxJSON.main, uri),
+        };
+      }),
     };
 
     return toolbox;

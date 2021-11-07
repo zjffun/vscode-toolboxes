@@ -5,7 +5,7 @@ import { getActiveInputDoc } from "./input";
 
 export const outputScheme = "toolboxes-output";
 
-export async function writeOutput() {
+export async function writeOutput({ forceRun }: { forceRun?: boolean } = {}) {
   const doc = getActiveInputDoc();
   if (!doc) {
     return;
@@ -17,17 +17,16 @@ export async function writeOutput() {
   }
   const tool = await toolboxesService.getToolByCaseUri(toolCase.uri);
   if (tool) {
-    const optionValues = (await casesService.getCaseByUri(doc.uri))
-      ?.optionValues;
-    try {
-      const { tools } = require(tool.main.replace(
-        "$(extensionPath)",
-        context.extensionPath
-      ));
-      const toolFn = tools[tool.name];
-      writeOutputTextDocument(await toolFn(doc.getText(), optionValues));
-    } catch (error) {
-      console.error(error);
+    if (tool.autoRun || forceRun) {
+      const optionValues = (await casesService.getCaseByUri(doc.uri))
+        ?.optionValues;
+      try {
+        const { tools } = require(tool.main);
+        const toolFn = tools[tool.name];
+        writeOutputTextDocument(await toolFn(doc.getText(), optionValues));
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 }

@@ -1,0 +1,122 @@
+{
+  "name": "video",
+  "label": "Video",
+  "main": "./video.js",
+  "tools": [
+    {
+      "name": "cutCropGif",
+      "label": "Cut & Crop & GIF",
+      "options": [
+        {
+          "name": "videoFile",
+          "label": "video",
+          "type": "file",
+          "description": ""
+        },
+
+        {
+          "name": "enableCut",
+          "label": "enable",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Cut"
+        },
+        {
+          "name": "start",
+          "label": "start",
+          "type": "string",
+          "description": "",
+          "default": "00:00:00.000",
+          "category": "Cut"
+        },
+        {
+          "name": "end",
+          "label": "end",
+          "type": "string",
+          "description": "",
+          "default": "00:00:00.000",
+          "category": "Cut"
+        },
+
+        {
+          "name": "enableCrop",
+          "label": "enable",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "x1",
+          "label": "x1",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "y1",
+          "label": "y1",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "x2",
+          "label": "x2",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "y2",
+          "label": "y2",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+
+        {
+          "name": "enableGif",
+          "label": "enable",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "GIF"
+        },
+        {
+          "name": "gifFps",
+          "label": "gifFps",
+          "type": "int",
+          "description": "",
+          "default": 12,
+          "category": "GIF"
+        },
+        {
+          "name": "gifWidth",
+          "label": "gifWidth",
+          "type": "int",
+          "description": "",
+          "default": 320,
+          "category": "GIF"
+        },
+        {
+          "name": "gifHeight",
+          "label": "gifHeight",
+          "type": "int",
+          "description": "",
+          "default": -1,
+          "category": "GIF"
+        },
+        {
+          "name": "gifLoop",
+          "label": "gifLoop",
+          "type": "int",
+          "description": "",
+          "default": 0,
+          "category": "GIF"
+        }
+      ]
+    }
+  ]
+}

@@ -4,5 +4,11 @@
   },
   {
     "path": "$(extensionPath)/toolboxes/conversion.json"
+  },
+  {
+    "path": "$(extensionPath)/toolboxes/text.json"
+  },
+  {
+    "path": "$(extensionPath)/toolboxes/video.json"
   }
 ]

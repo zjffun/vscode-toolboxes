@@ -7,6 +7,7 @@ interface IToolCommon {
 }
 export interface ITool extends IToolCommon {
   main: string;
+  autoRun?: boolean;
   optionCategories?: string[];
   options?: any[];
 }

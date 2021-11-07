@@ -6,6 +6,7 @@
     {
       "name": "convert",
       "label": "Convert JSON5 JSON YAML XML CSV TSV",
+      "autoRun": true,
       "options": [
         {
           "name": "from",

@@ -6,6 +6,7 @@
     {
       "label": "URL Encode",
       "name": "url-encode",
+      "autoRun": true,
       "options": [
         {
           "name": "type",
@@ -29,6 +30,7 @@
     {
       "label": "URL Decode",
       "name": "url-decode",
+      "autoRun": true,
       "options": [
         {
           "name": "type",
@@ -51,27 +53,33 @@
     },
     {
       "label": "URL Parse",
-      "name": "url-parse"
+      "name": "url-parse",
+      "autoRun": true
     },
     {
       "label": "HTML Encode",
-      "name": "html-encode"
+      "name": "html-encode",
+      "autoRun": true
     },
     {
       "label": "HTML Decode",
-      "name": "html-decode"
+      "name": "html-decode",
+      "autoRun": true
     },
     {
       "label": "Base64 Encode",
-      "name": "base64-encode"
+      "name": "base64-encode",
+      "autoRun": true
     },
     {
       "label": "Base64 Decode",
-      "name": "base64-decode"
+      "name": "base64-decode",
+      "autoRun": true
     },
     {
       "label": "Prettier",
       "name": "prettier",
+      "autoRun": true,
       "options": [
         {
           "label": "parser",

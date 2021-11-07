@@ -16,8 +16,8 @@ export class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <main style={{ display: "flex", justifyContent: "center" }}>
-          Failed to load options.
+        <main>
+          <p>Failed to load options.</p>
           <p>Error message: {this.state.errorMsg}</p>
         </main>
       );

@@ -2,7 +2,11 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import { ToolCaseStoreType } from "../../enum";
 import { casesService } from "../../extension";
-import { closeAllEditors, createInputUri, resetTestWorkspace } from "../util";
+import {
+  closeAllEditors,
+  createToolbox1InputUri,
+  resetTestWorkspace,
+} from "../util";
 
 suite("CasesService", () => {
   setup(async () => {
@@ -43,7 +47,7 @@ suite("CasesService", () => {
 
     test("upsert file case should work", async () => {
       await upsertCase(
-        createInputUri("/test/upsertCase", {
+        createToolbox1InputUri("/test/upsertCase", {
           storeType: ToolCaseStoreType.FILE,
         })
       );
@@ -51,7 +55,7 @@ suite("CasesService", () => {
 
     test("upsert memory case should work", async () => {
       await upsertCase(
-        createInputUri("/test/upsertCase", {
+        createToolbox1InputUri("/test/upsertCase", {
           storeType: ToolCaseStoreType.MENORY,
         })
       );
@@ -74,7 +78,7 @@ suite("CasesService", () => {
 
     test("delete memory case should work", async () => {
       await deleteCase(
-        createInputUri("/test/deleteCase", {
+        createToolbox1InputUri("/test/deleteCase", {
           storeType: ToolCaseStoreType.MENORY,
         })
       );
@@ -82,7 +86,7 @@ suite("CasesService", () => {
 
     test("delete file case should work", async () => {
       await deleteCase(
-        createInputUri("/test/deleteCase", {
+        createToolbox1InputUri("/test/deleteCase", {
           storeType: ToolCaseStoreType.FILE,
         })
       );

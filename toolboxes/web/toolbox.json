@@ -1,11 +1,11 @@
 {
-  "name": "web",
-  "label": "web",
-  "main": "$(extensionPath)/toolboxes/web.js",
+  "url": "./toolboxes/web",
+  "label": "Web",
+  "main": "./index.js",
   "tools": [
     {
       "label": "URL Encode",
-      "name": "url-encode",
+      "id": "url-encode",
       "autoRun": true,
       "options": [
         {
@@ -29,7 +29,7 @@
     },
     {
       "label": "URL Decode",
-      "name": "url-decode",
+      "id": "url-decode",
       "autoRun": true,
       "options": [
         {
@@ -53,32 +53,32 @@
     },
     {
       "label": "URL Parse",
-      "name": "url-parse",
+      "id": "url-parse",
       "autoRun": true
     },
     {
       "label": "HTML Encode",
-      "name": "html-encode",
+      "id": "html-encode",
       "autoRun": true
     },
     {
       "label": "HTML Decode",
-      "name": "html-decode",
+      "id": "html-decode",
       "autoRun": true
     },
     {
       "label": "Base64 Encode",
-      "name": "base64-encode",
+      "id": "base64-encode",
       "autoRun": true
     },
     {
       "label": "Base64 Decode",
-      "name": "base64-decode",
+      "id": "base64-decode",
       "autoRun": true
     },
     {
       "label": "Prettier",
-      "name": "prettier",
+      "id": "prettier",
       "autoRun": true,
       "options": [
         {

@@ -1,14 +1,14 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import { toolboxesMetadata } from ".";
 import { ToolboxesService } from "../../core/toolboxesService";
 import { ToolCaseType } from "../../enum";
 import { toolboxesService } from "../../extension";
 import {
   closeAllEditors,
-  createInputUri,
+  createToolbox1InputUri,
   resetTestWorkspace,
   testWorkspaceFolder,
+  toolbox1Url,
 } from "../util";
 
 suite("ToolboxesService", () => {
@@ -24,8 +24,8 @@ suite("ToolboxesService", () => {
 
   suite("getToolboxConfigs", () => {
     test("should get config if exist", async () => {
-      const metadata = await toolboxesService.getToolboxesMetadata();
-      assert.strictEqual(metadata.length, toolboxesMetadata.length);
+      const toolboxesConfig = await toolboxesService.getToolboxesConfig();
+      assert.ok(toolboxesConfig.length > 0);
     });
 
     test("should set default if not exist", async () => {
@@ -36,54 +36,46 @@ suite("ToolboxesService", () => {
       const toolboxesService = new ToolboxesService({
         toolboxesUri: toolboxesUri,
       });
-      const metadata = await toolboxesService.getToolboxesMetadata();
-      assert.ok(metadata.length);
+      const toolboxesConfig = await toolboxesService.getToolboxesConfig();
+      assert.ok(toolboxesConfig.length);
       assert.ok(await vscode.workspace.fs.readFile(toolboxesUri));
     });
   });
 
   suite("getToolByCaseUri", () => {
     test("get tool by TOOLCASE type case should work", async () => {
-      const uri = createInputUri("/toolbox1/tool1/case1", {
+      const uri = createToolbox1InputUri("/tool1/case1", {
         type: ToolCaseType.TOOLCASE,
       });
       const tool = await toolboxesService.getToolByCaseUri(uri);
-      assert.strictEqual(tool?.name, "tool1");
+      assert.strictEqual(tool?.id, "tool1");
     });
 
     test("get tool by TOOL type case should work", async () => {
-      const uri = createInputUri("/toolbox1/tool2", {
+      const uri = createToolbox1InputUri("/tool2", {
         type: ToolCaseType.TOOL,
       });
       const tool = await toolboxesService.getToolByCaseUri(uri);
-      assert.strictEqual(tool?.name, "tool2");
+      assert.strictEqual(tool?.id, "tool2");
+    });
+
+    test("get same id tool should work", async () => {
+      const uri = createToolbox1InputUri("/sametoolid", {
+        type: ToolCaseType.TOOL,
+      });
+      const tool = await toolboxesService.getToolByCaseUri(uri);
+      assert.ok(tool?.label);
     });
   });
 
   test("getToolbox should work", async () => {
-    const metadata = await toolboxesService.getToolboxesMetadata();
-    const toolbox = await toolboxesService.getToolbox(metadata[0]);
+    const toolboxConfigs = await toolboxesService.getToolboxesConfig();
+    const toolbox = await toolboxesService.getToolboxTree(
+      toolboxConfigs[0].url
+    );
 
-    assert.strictEqual(toolbox.name, "toolbox1");
-    assert.strictEqual(toolbox.children[0].name, "tool1");
-  });
-
-  test("getToolboxesTree should work", async () => {
-    const notExistToolboxPath =
-      "$(extensionPath)/src/test/toolboxes-test/not-exist-toolbox.json";
-
-    await toolboxesService.addToolbox({
-      path: notExistToolboxPath,
-    });
-    let toolboxesTree = await toolboxesService.getToolboxesTree();
-
-    assert.strictEqual(toolboxesTree.length, toolboxesMetadata.length);
-
-    await toolboxesService.deleteToolbox({
-      path: notExistToolboxPath,
-    });
-    toolboxesTree = await toolboxesService.getToolboxesTree();
-
-    assert.strictEqual(toolboxesTree.length, toolboxesMetadata.length);
+    assert.strictEqual(toolbox.url, toolbox1Url);
+    assert.strictEqual(toolbox?.children?.[0]?.url, toolbox1Url);
+    assert.strictEqual(toolbox?.children?.[0]?.label, "tool1");
   });
 });

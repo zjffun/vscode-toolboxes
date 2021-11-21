@@ -12,10 +12,10 @@ export default async (toolboxUri: vscode.Uri): Promise<boolean> => {
 
   const fileUris = await vscode.window.showOpenDialog(options);
   const fileUri = fileUris?.[0];
+
+  // tool
   if (fileUri) {
-    await toolboxesService.addToolbox({
-      path: fileUri.fsPath,
-    });
+    await toolboxesService.addTool(fileUri.fsPath);
   }
 
   return true;

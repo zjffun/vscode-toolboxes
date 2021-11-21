@@ -6,8 +6,13 @@ import { renameCaseCommandId } from "../../commands/renameCase";
 import { showCaseCommandId } from "../../commands/showCase";
 import { showOutputCommandId } from "../../commands/showOutput";
 import { showToolCommandId } from "../../commands/showTool";
-import { casesService } from "../../extension";
-import { closeAllEditors, createInputUri, resetTestWorkspace } from "../util";
+import { casesService, toolboxesService } from "../../extension";
+import * as toolbox1 from "../toolboxes-test/toolbox1/toolbox.json";
+import {
+  closeAllEditors,
+  createToolbox1InputUri,
+  resetTestWorkspace,
+} from "../util";
 
 suite("Commands", () => {
   setup(async () => {
@@ -20,25 +25,10 @@ suite("Commands", () => {
     await resetTestWorkspace();
   });
 
-  test(`${showCaseCommandId} should work`, async () => {
-    const path = "/toolbox1/tool1/case1";
-    const toolCase: IToolCase = {
-      uri: createInputUri(path),
-    };
-
-    const editor = await vscode.commands.executeCommand<vscode.TextEditor>(
-      showCaseCommandId,
-      toolCase
-    );
-
-    assert.strictEqual(editor?.document?.uri?.path, path);
-  });
-
   test(`${showToolCommandId} should work`, async () => {
-    const path = "/toolbox1/tool1";
     const tool: ITool = {
-      uri: createInputUri(path),
-      name: "",
+      id: toolbox1.tools[0].id,
+      url: toolbox1.url,
       label: "",
       main: "",
     };
@@ -48,7 +38,9 @@ suite("Commands", () => {
       tool
     );
 
-    assert.ok(editor?.document?.uri?.path, path);
+    const toolUri = toolboxesService.getToolCaseUri(tool);
+
+    assert.ok(editor?.document?.uri?.path, toolUri.path);
   });
 
   test(`${showOutputCommandId} should work`, async () => {
@@ -58,7 +50,7 @@ suite("Commands", () => {
   });
 
   test(`${renameCaseCommandId} should work`, async () => {
-    let uri = createInputUri("/toolbox1/tool1/renamecase1");
+    let uri = createToolbox1InputUri("/tool1/renamecase1");
     let toolCase: IToolCase | null = {
       uri,
     };
@@ -87,7 +79,7 @@ suite("Commands", () => {
   });
 
   test(`${deleteCaseCommandId} should work`, async () => {
-    let uri = createInputUri("/toolbox1/tool1/deletecase1");
+    let uri = createToolbox1InputUri("/tool1/deletecase1");
     let toolCase: IToolCase | null = {
       uri,
     };

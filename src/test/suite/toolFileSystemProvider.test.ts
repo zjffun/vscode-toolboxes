@@ -1,12 +1,11 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 import { ToolCaseStoreType, ToolCaseType } from "../../enum";
-import { casesService, toolboxesService } from "../../extension";
+import { casesService } from "../../extension";
 import {
   closeAllEditors,
-  createInputUri,
+  createToolbox1InputUri,
   resetTestWorkspace,
-  sleep,
   writeTextDocument,
 } from "../util";
 
@@ -25,7 +24,7 @@ suite("ToolFileSystemProvider", () => {
 
   test(`writeFile should work`, async () => {
     const path = "/toolbox1/tool1";
-    let uri = createInputUri(path, {
+    let uri = createToolbox1InputUri(path, {
       type: ToolCaseType.TOOL,
       storeType: ToolCaseStoreType.MENORY,
       caseName: "/writeFile-case1",
@@ -35,7 +34,7 @@ suite("ToolFileSystemProvider", () => {
     await vscode.window.showTextDocument(doc);
     await writeTextDocument(doc, "foo");
 
-    uri = createInputUri(`${path}/writeFile-case1`);
+    uri = createToolbox1InputUri(`${path}/writeFile-case1`);
 
     let toolCase = await casesService.getCaseByUri(uri);
 
@@ -44,7 +43,7 @@ suite("ToolFileSystemProvider", () => {
 
   test(`readFile should work`, async () => {
     const path = "/toolbox1/tool1/readFile-case1";
-    let uri = createInputUri(path);
+    let uri = createToolbox1InputUri(path);
 
     await casesService.upsertCase({
       uri,
@@ -52,7 +51,7 @@ suite("ToolFileSystemProvider", () => {
     });
 
     const doc = await vscode.workspace.openTextDocument(
-      createInputUri(path, {
+      createToolbox1InputUri(path, {
         type: ToolCaseType.TOOLCASE,
         storeType: ToolCaseStoreType.MENORY,
       })

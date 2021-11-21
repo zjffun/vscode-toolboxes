@@ -1,0 +1,35 @@
+{
+  "url": "./src/test/toolboxes-test/toolbox1",
+  "label": "toolbox1",
+  "main": "./index.js",
+  "tools": [
+    {
+      "id": "tool1",
+      "label": "tool1"
+    },
+    {
+      "id": "tool2",
+      "label": "tool2"
+    },
+    {
+      "lable": "toolset1",
+      "tools": [
+        {
+          "lable": "toolset2",
+          "tools": [
+            {
+              "id": "toolset2-tool",
+              "label": "toolset2-tool"
+            },
+            { "id": "sametoolid", "label": "sametoolid-toolset2" }
+          ]
+        },
+        { "id": "toolset1-tool1", "label": "toolset1-tool1" },
+        { "id": "toolset1-tool2", "label": "toolset1-tool2" },
+        { "id": "sametoolid", "label": "sametoolid-toolset1" }
+      ]
+    },
+    { "id": "sametoolid", "label": "sametoolid1" },
+    { "id": "sametoolid", "label": "sametoolid2" }
+  ]
+}

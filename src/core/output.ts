@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { casesService, toolboxesService } from "../extension";
-import { context } from "../share";
 import { getActiveInputDoc } from "./input";
 
 export const outputScheme = "toolboxes-output";
@@ -21,9 +20,14 @@ export async function writeOutput({ forceRun }: { forceRun?: boolean } = {}) {
       const optionValues = (await casesService.getCaseByUri(doc.uri))
         ?.optionValues;
       try {
-        const { tools } = require(tool.main);
-        const toolFn = tools[tool.name];
-        writeOutputTextDocument(await toolFn(doc.getText(), optionValues));
+        const { output } = await toolboxesService.importTool(tool);
+        const result = await output({
+          input: doc.getText(),
+          options: optionValues,
+          tool,
+          require,
+        });
+        writeOutputTextDocument(result);
       } catch (error) {
         console.error(error);
       }

@@ -18,121 +18,140 @@ import ToolboxesView from "./views/toolboxesView";
 import { ToolboxesService } from "./core/toolboxesService";
 import addToolbox, { addToolboxCommandId } from "./commands/addToolbox";
 import runTool, { runToolCommandId } from "./commands/runTool";
+import openToolboxesFolder, {
+  openToolboxesFolderCommandId,
+} from "./commands/openToolboxFolder";
 
 export let toolboxesView: ToolboxesView;
 export let optionsView: OptionsView;
 export let casesView: CasesView;
 export let casesService: CasesService;
 export let toolboxesService: ToolboxesService;
+export let activePromise: Promise<void>;
 
 export function activate(context: vscode.ExtensionContext) {
-  setContext(context);
+  activePromise = (async () => {
+    setContext(context);
 
-  if (!toolboxesService) {
-    toolboxesService = new ToolboxesService();
-  }
-
-  if (!casesService) {
-    casesService = new CasesService();
-  }
-
-  vscode.workspace.onDidChangeTextDocument((e) => {
-    if (e.document.uri.scheme !== inputScheme) {
-      return;
+    if (!toolboxesService) {
+      toolboxesService = new ToolboxesService();
+      if ((await toolboxesService.getToolboxesConfig()).length === 0) {
+        await toolboxesService.addDefaultToolboxes();
+      }
     }
-    writeOutput();
-  });
 
-  vscode.workspace.registerFileSystemProvider(
-    inputScheme,
-    new ToolFileSystemProvider()
-  );
+    if (!casesService) {
+      casesService = new CasesService();
+    }
 
-  vscode.workspace.registerFileSystemProvider(
-    outputScheme,
-    new EmptyFileSystemProvider(),
-    { isReadonly: true }
-  );
-
-  toolboxesView = new ToolboxesView(context);
-
-  optionsView = new OptionsView();
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(OptionsView.viewId, optionsView)
-  );
-
-  casesView = new CasesView();
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand(runToolCommandId, runTool)
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand(addToolboxCommandId, addToolbox)
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("toolboxes.refreshToolboxes", async () => {
-      return toolboxesView.refresh();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("toolboxes.refreshOptions", async () => {
-      return optionsView.refresh();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("toolboxes.refreshCases", async () => {
-      return casesView.refresh();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("toolboxes.showOutput", async () => {
-      return showOutput();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "_toolboxes.showTool",
-      async (tool: ITool) => {
-        return showTool(tool);
+    vscode.workspace.onDidChangeTextDocument((e) => {
+      if (e.document.uri.scheme !== inputScheme) {
+        return;
       }
-    )
-  );
+      writeOutput();
+    });
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "_toolboxes.showCase",
-      async (toolCase: IToolCase) => {
-        return showCase(toolCase);
-      }
-    )
-  );
+    vscode.workspace.registerFileSystemProvider(
+      inputScheme,
+      new ToolFileSystemProvider()
+    );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "_toolboxes.renameCase",
-      async (toolCase: IToolCase, name?: string) => {
-        return renameCase(toolCase, name);
-      }
-    )
-  );
+    vscode.workspace.registerFileSystemProvider(
+      outputScheme,
+      new EmptyFileSystemProvider(),
+      { isReadonly: true }
+    );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "_toolboxes.deleteCase",
-      async (toolCase: IToolCase) => {
-        return deleteCase(toolCase);
-      }
-    )
-  );
+    toolboxesView = new ToolboxesView(context);
 
-  registerHelpAndFeedbackView(context);
+    optionsView = new OptionsView();
+
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(OptionsView.viewId, optionsView)
+    );
+
+    casesView = new CasesView();
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(runToolCommandId, runTool)
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(addToolboxCommandId, addToolbox)
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        "toolboxes.refreshToolboxes",
+        async () => {
+          return toolboxesView.refresh();
+        }
+      )
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand("toolboxes.refreshOptions", async () => {
+        return optionsView.refresh();
+      })
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand("toolboxes.refreshCases", async () => {
+        return casesView.refresh();
+      })
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand("toolboxes.showOutput", async () => {
+        return showOutput();
+      })
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        openToolboxesFolderCommandId,
+        openToolboxesFolder
+      )
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        "_toolboxes.showTool",
+        async (tool: ITool) => {
+          return showTool(tool);
+        }
+      )
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        "_toolboxes.showCase",
+        async (toolCase: IToolCase) => {
+          return showCase(toolCase);
+        }
+      )
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        "_toolboxes.renameCase",
+        async (toolCase: IToolCase, name?: string) => {
+          return renameCase(toolCase, name);
+        }
+      )
+    );
+
+    context.subscriptions.push(
+      vscode.commands.registerCommand(
+        "_toolboxes.deleteCase",
+        async (toolCase: IToolCase) => {
+          return deleteCase(toolCase);
+        }
+      )
+    );
+
+    registerHelpAndFeedbackView(context);
+  })();
 }
 
 export function deactivate() {}

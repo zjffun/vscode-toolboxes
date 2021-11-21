@@ -1,10 +1,10 @@
 {
-  "name": "conversion",
+  "url": "./toolboxes/conversion",
   "label": "Conversion",
-  "main": "$(extensionPath)/toolboxes/conversion.js",
+  "main": "./index.js",
   "tools": [
     {
-      "name": "convert",
+      "id": "convert",
       "label": "Convert JSON5 JSON YAML XML CSV TSV",
       "autoRun": true,
       "options": [

@@ -52,7 +52,7 @@ export default class CasesView implements vscode.TreeDataProvider<IToolCase> {
       return [];
     }
     const tool = await toolboxesService.getToolByCaseUri(toolCase.uri);
-    if (!tool) {
+    if (!tool || !tool.uri) {
       return [];
     }
 

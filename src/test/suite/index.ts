@@ -6,15 +6,6 @@ import { ToolboxesService } from "../../core/toolboxesService";
 import { setCaseService, setToolboxesService } from "../../extension";
 import { createFile } from "../util";
 
-export const toolboxesMetadata = [
-  {
-    path: "$(extensionPath)/src/test/toolboxes-test/toolbox1.json",
-  },
-  {
-    path: "$(extensionPath)/src/test/toolboxes-test/toolbox2.json",
-  },
-];
-
 export function run(): Promise<void> {
   // Create the mocha test
   const mocha = new Mocha({
@@ -57,9 +48,32 @@ async function init() {
   const casesUri = await createFile("test-cases.json", "");
   setCaseService(new CasesService({ casesUri }));
 
-  const toolboxesUri = await createFile(
-    "test-toolboxes.json",
-    JSON.stringify(toolboxesMetadata)
+  const toolboxesUri = await createFile("test-toolboxes.json", "[]");
+  const toolboxesService = new ToolboxesService({ toolboxesUri });
+  setToolboxesService(toolboxesService);
+
+  await toolboxesService.addToolboxDir(
+    path.join(
+      __dirname,
+      "../",
+      "../",
+      "../",
+      "src",
+      "test",
+      "toolboxes-test",
+      "toolbox1"
+    )
   );
-  setToolboxesService(new ToolboxesService({ toolboxesUri }));
+  await toolboxesService.addToolboxDir(
+    path.join(
+      __dirname,
+      "../",
+      "../",
+      "../",
+      "src",
+      "test",
+      "toolboxes-test",
+      "toolbox2"
+    )
+  );
 }

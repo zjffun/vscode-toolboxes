@@ -1,0 +1,15 @@
+{
+  "url": "./src/test/toolboxes-test/toolbox2",
+  "label": "toolbox2",
+  "main": "./index.js",
+  "tools": [
+    {
+      "id": "tool1",
+      "label": "tool1"
+    },
+    {
+      "id": "tool2",
+      "label": "tool2"
+    }
+  ]
+}

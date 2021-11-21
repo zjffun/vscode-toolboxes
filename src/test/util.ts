@@ -3,6 +3,8 @@ import { IQuery } from "..";
 import { inputScheme } from "../core/input";
 import { stringifyQuery } from "../share";
 
+export const toolbox1Url = "./src/test/toolboxes-test/toolbox1";
+
 export const testWorkspaceRoot = <vscode.Uri>(
   vscode.workspace.workspaceFolders?.[0]?.uri
 );
@@ -73,6 +75,18 @@ export const createInputUri = (path: string, query?: IQuery): vscode.Uri => {
   return vscode.Uri.from({
     scheme: inputScheme,
     path: path,
+    query: stringifyQuery(query || {}),
+  });
+};
+
+export const createToolbox1InputUri = (
+  path: string,
+  query?: IQuery
+): vscode.Uri => {
+  const encodedToolbox1URL = encodeURIComponent(toolbox1Url);
+  return vscode.Uri.from({
+    scheme: inputScheme,
+    path: `/${encodedToolbox1URL}${path}`,
     query: stringifyQuery(query || {}),
   });
 };

@@ -1,10 +1,8 @@
 import * as vscode from "vscode";
-import { ITool, IToolContainer } from "..";
+import { ITool } from "..";
 import { ToolboxesService } from "../core/toolboxesService";
 
-export default class ToolboxesView
-  implements vscode.TreeDataProvider<ITool | IToolContainer>
-{
+export default class ToolboxesView implements vscode.TreeDataProvider<ITool> {
   protected _onDidChangeTreeData: vscode.EventEmitter<any> =
     new vscode.EventEmitter<any>();
   readonly onDidChangeTreeData: vscode.Event<any> =
@@ -29,8 +27,8 @@ export default class ToolboxesView
     this._onDidChangeTreeData.fire(null);
   }
 
-  public getTreeItem(element: ITool | IToolContainer): vscode.TreeItem {
-    const { children: isContainer } = <IToolContainer>element;
+  public getTreeItem(element: ITool): vscode.TreeItem {
+    const isContainer = element.children || element.type === "toolbox";
 
     const showToolCommand = {
       command: "_toolboxes.showTool",
@@ -44,25 +42,25 @@ export default class ToolboxesView
       collapsibleState: isContainer
         ? vscode.TreeItemCollapsibleState.Collapsed
         : undefined,
-      resourceUri: element.uri,
+      // resourceUri: element.uri,
     };
   }
 
-  public getChildren(
-    element?: ITool | IToolContainer
-  ): (ITool | IToolContainer)[] | Thenable<(ITool | IToolContainer)[]> {
+  public getChildren(element?: ITool): ITool[] | Thenable<ITool[]> {
     return element
       ? this.getTreeElement(element)
-      : this.toolboxesService.getToolboxesTree();
+      : this.toolboxesService.getToolboxes();
   }
 
-  protected getTreeElement = (element: ITool | IToolContainer) => {
-    const _element = <IToolContainer>element;
-
-    if (!_element?.children) {
+  protected getTreeElement = async (element: ITool) => {
+    if (!element?.children) {
+      if (element?.type === "toolbox") {
+        const tree = await this.toolboxesService.getToolboxTree(element.url);
+        return tree.children || [];
+      }
       return [];
     }
 
-    return _element.children;
+    return element.children;
   };
 }

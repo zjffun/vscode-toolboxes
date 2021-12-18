@@ -3,12 +3,11 @@ import * as vscode from "vscode";
 import { ITool, IToolCase } from "../..";
 import { deleteCaseCommandId } from "../../commands/deleteCase";
 import { renameCaseCommandId } from "../../commands/renameCase";
-import { showCaseCommandId } from "../../commands/showCase";
 import { showOutputCommandId } from "../../commands/showOutput";
 import { showToolCommandId } from "../../commands/showTool";
-import { casesService, toolboxesService } from "../../extension";
-import * as toolbox1 from "../toolboxes-test/toolbox1/toolbox.json";
+import { casesService } from "../../extension";
 import {
+  builtinInputUri,
   closeAllEditors,
   createToolbox1InputUri,
   resetTestWorkspace,
@@ -27,10 +26,8 @@ suite("Commands", () => {
 
   test(`${showToolCommandId} should work`, async () => {
     const tool: ITool = {
-      id: toolbox1.tools[0].id,
-      url: toolbox1.url,
       label: "",
-      main: "",
+      uri: builtinInputUri,
     };
 
     const editor = await vscode.commands.executeCommand<vscode.TextEditor>(
@@ -38,9 +35,7 @@ suite("Commands", () => {
       tool
     );
 
-    const toolUri = toolboxesService.getToolCaseUri(tool);
-
-    assert.ok(editor?.document?.uri?.path, toolUri.path);
+    assert.ok(editor?.document?.uri?.path, builtinInputUri.path);
   });
 
   test(`${showOutputCommandId} should work`, async () => {
@@ -50,17 +45,14 @@ suite("Commands", () => {
   });
 
   test(`${renameCaseCommandId} should work`, async () => {
-    let uri = createToolbox1InputUri("/tool1/renamecase1");
-    let toolCase: IToolCase | null = {
+    let uri = createToolbox1InputUri("/tool1", { case: "renamecase1" });
+    let toolCase: IToolCase | undefined = {
       uri,
+      content: "foo",
+      mtime: Date.now(),
     };
 
-    assert.ok(
-      await casesService.upsertCase({
-        uri: uri,
-        content: "foo",
-      })
-    );
+    assert.ok(await casesService.upsertDiskCase(toolCase));
 
     const caseName = "new-renamecase1";
 
@@ -72,26 +64,28 @@ suite("Commands", () => {
       )
     );
 
-    uri = vscode.Uri.joinPath(uri, "../", caseName);
-    toolCase = await casesService.getCaseByUri(uri);
+    toolCase = await casesService.getDiskCase(
+      createToolbox1InputUri("/tool1", { case: caseName })
+    );
 
     assert.strictEqual(toolCase?.content, "foo");
   });
 
   test(`${deleteCaseCommandId} should work`, async () => {
-    let uri = createToolbox1InputUri("/tool1/deletecase1");
-    let toolCase: IToolCase | null = {
+    let uri = createToolbox1InputUri("/tool1", { case: "deletecase1" });
+    let toolCase: IToolCase | undefined = {
       uri,
+      mtime: Date.now(),
     };
 
-    assert.ok(await casesService.upsertCase(toolCase));
+    assert.ok(await casesService.upsertDiskCase(toolCase));
 
     assert.ok(
       await vscode.commands.executeCommand(deleteCaseCommandId, toolCase)
     );
 
-    toolCase = await casesService.getCaseByUri(uri);
+    toolCase = await casesService.getDiskCase(uri);
 
-    assert.strictEqual(toolCase, null);
+    assert.strictEqual(toolCase, undefined);
   });
 });

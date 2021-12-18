@@ -1,26 +1,32 @@
 import * as vscode from "vscode";
 import { ITool } from "..";
-import { showInput } from "../core/input";
-import { ToolCaseStoreType, ToolCaseType } from "../enum";
-import { toolboxesService } from "../extension";
-import { stringifyQuery } from "../share";
+import { showInputDoc } from "../core/input";
 
-export default async (tool: ITool): Promise<vscode.TextEditor | undefined> => {
+const showTool = async (
+  tool: ITool
+): Promise<vscode.TextEditor | undefined> => {
   try {
+    if (!tool.uri) {
+      return undefined;
+    }
+
     await vscode.commands.executeCommand("toolboxes.showOutput");
 
-    const uri = toolboxesService.getToolCaseUri(tool, {
-      query: stringifyQuery({
-        type: ToolCaseType.TOOL,
-        storeType: ToolCaseStoreType.MENORY,
-      }),
-    });
+    const uri = tool.uri;
 
-    return await showInput(uri);
+    return await showInputDoc(uri);
   } catch (error) {
     console.error(error);
   }
   return undefined;
 };
 
+export default showTool;
+
 export const showToolCommandId = "_toolboxes.showTool";
+
+export const regist = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(showToolCommandId, showTool)
+  );
+};

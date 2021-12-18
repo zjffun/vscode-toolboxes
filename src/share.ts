@@ -41,3 +41,28 @@ export const parseQuery = (query: string): IQuery => {
 export const stringifyQuery = (query: IQuery): string => {
   return qs.stringify(query);
 };
+
+export async function writeTextDocument(
+  textDocument: vscode.TextDocument,
+  content: string,
+  { save }: { save?: boolean } = {}
+) {
+  const workspaceEdit = new vscode.WorkspaceEdit();
+
+  workspaceEdit.replace(
+    textDocument.uri,
+    new vscode.Range(0, 0, textDocument.lineCount, 0),
+    content
+  );
+
+  const res = await vscode.workspace.applyEdit(workspaceEdit);
+
+  if (!res) {
+    console.error("applyEdit failed", { textDocument, content });
+    throw Error("applyEdit failed");
+  }
+
+  if (save) {
+    await textDocument.save();
+  }
+}

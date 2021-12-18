@@ -254,6 +254,7 @@
     "@vscode/codicons": "^0.0.21",
     "@vscode/webview-ui-toolkit": "^0.8.2",
     "d3-dsv": "^3.0.1",
+    "esm": "^3.2.25",
     "fs-extra": "^10.0.0",
     "html-entities": "^2.3.2",
     "json5": "^2.2.0",

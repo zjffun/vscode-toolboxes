@@ -1,4 +1,4 @@
-function output({ input, options, tool, require }) {
+function output({ input, options, tool }) {
   const { encode, decode } = require("html-entities");
 
   const prettier = require("prettier/standalone");
@@ -93,8 +93,8 @@ function output({ input, options, tool, require }) {
     }
     return result;
   } catch (error) {
-    return error?.toString() || "unknow error";
+    return (error && error.toString()) || "unknow error";
   }
 }
 
-exports.output = output;
+export default output;

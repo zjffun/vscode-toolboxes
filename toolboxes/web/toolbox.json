@@ -1,7 +1,5 @@
 {
-  "url": "./toolboxes/web",
   "label": "Web",
-  "main": "./index.js",
   "tools": [
     {
       "label": "URL Encode",

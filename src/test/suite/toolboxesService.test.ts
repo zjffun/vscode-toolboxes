@@ -1,14 +1,12 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
 import { ToolboxesService } from "../../core/toolboxesService";
-import { ToolCaseType } from "../../enum";
 import { toolboxesService } from "../../extension";
 import {
   closeAllEditors,
-  createToolbox1InputUri,
+  createInputUri,
   resetTestWorkspace,
   testWorkspaceFolder,
-  toolbox1Url,
 } from "../util";
 
 suite("ToolboxesService", () => {
@@ -22,60 +20,37 @@ suite("ToolboxesService", () => {
     await resetTestWorkspace();
   });
 
+  suite("getTool", () => {
+    test("get builtin tool should work", async () => {
+      const uri = createInputUri("/builtin/web/url-encode", {});
+      const tool = await toolboxesService.getTool(uri);
+      assert.strictEqual(tool?.id, "url-encode");
+    });
+  });
+
+  test("getToolboxes should work", async () => {
+    const toolboxes = await toolboxesService.getToolboxes();
+
+    assert.ok(toolboxes.length);
+  });
+
   suite("getToolboxConfigs", () => {
     test("should get config if exist", async () => {
       const toolboxesConfig = await toolboxesService.getToolboxesConfig();
-      assert.ok(toolboxesConfig.length > 0);
+      assert.ok(toolboxesConfig.length);
     });
 
-    test("should set default if not exist", async () => {
-      const toolboxesUri = vscode.Uri.joinPath(
+    test("should set an empty array if not exist", async () => {
+      const toolboxesJsonUri = vscode.Uri.joinPath(
         testWorkspaceFolder,
         "not-exist-toolboxes.json"
       );
       const toolboxesService = new ToolboxesService({
-        toolboxesUri: toolboxesUri,
+        toolboxesJsonUri,
       });
       const toolboxesConfig = await toolboxesService.getToolboxesConfig();
-      assert.ok(toolboxesConfig.length);
-      assert.ok(await vscode.workspace.fs.readFile(toolboxesUri));
+      assert.strictEqual(toolboxesConfig.length, 0);
+      assert.ok(await vscode.workspace.fs.readFile(toolboxesJsonUri));
     });
-  });
-
-  suite("getToolByCaseUri", () => {
-    test("get tool by TOOLCASE type case should work", async () => {
-      const uri = createToolbox1InputUri("/tool1/case1", {
-        type: ToolCaseType.TOOLCASE,
-      });
-      const tool = await toolboxesService.getToolByCaseUri(uri);
-      assert.strictEqual(tool?.id, "tool1");
-    });
-
-    test("get tool by TOOL type case should work", async () => {
-      const uri = createToolbox1InputUri("/tool2", {
-        type: ToolCaseType.TOOL,
-      });
-      const tool = await toolboxesService.getToolByCaseUri(uri);
-      assert.strictEqual(tool?.id, "tool2");
-    });
-
-    test("get same id tool should work", async () => {
-      const uri = createToolbox1InputUri("/sametoolid", {
-        type: ToolCaseType.TOOL,
-      });
-      const tool = await toolboxesService.getToolByCaseUri(uri);
-      assert.ok(tool?.label);
-    });
-  });
-
-  test("getToolbox should work", async () => {
-    const toolboxConfigs = await toolboxesService.getToolboxesConfig();
-    const toolbox = await toolboxesService.getToolboxTree(
-      toolboxConfigs[0].url
-    );
-
-    assert.strictEqual(toolbox.url, toolbox1Url);
-    assert.strictEqual(toolbox?.children?.[0]?.url, toolbox1Url);
-    assert.strictEqual(toolbox?.children?.[0]?.label, "tool1");
   });
 });

@@ -1,0 +1,32 @@
+{
+  "label": "pip",
+  "tools": [
+    {
+      "id": "set-registry",
+      "label": "Set Registry",
+      "tags": ["切换源", "registry"],
+      "cases": [
+        {
+          "label": "阿里云",
+          "content": "http://mirrors.aliyun.com/pypi/simple/"
+        },
+        {
+          "label": "豆瓣",
+          "content": "http://pypi.douban.com/simple/"
+        },
+        {
+          "label": "清华大学",
+          "content": "https://pypi.tuna.tsinghua.edu.cn/simple/"
+        },
+        {
+          "label": "中国科学技术大学",
+          "content": "http://pypi.mirrors.ustc.edu.cn/simple/"
+        },
+        {
+          "label": "华中科技大学",
+          "content": "http://pypi.hustunique.com/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import * as vscode from "vscode";
-import { writeOutput } from "../core/output";
 import { casesService, toolboxesService } from "../extension";
 import { context } from "../share";
 import { getNonce } from "../util";
@@ -22,10 +21,16 @@ export default class OptionsView implements vscode.WebviewViewProvider {
   protected context: vscode.ExtensionContext = context;
   protected webview: vscode.Webview | undefined;
 
+  constructor() {
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(OptionsView.viewId, this)
+    );
+  }
+
   public async refresh() {
-    const toolCase = casesService.currentToolCase;
+    const toolCase = await casesService.getCurrentCase();
     if (toolCase) {
-      const tool = await toolboxesService.getToolByCaseUri(toolCase.uri);
+      const tool = await toolboxesService.getTool(toolCase.uri);
 
       if (tool) {
         this.webview?.postMessage({
@@ -44,10 +49,12 @@ export default class OptionsView implements vscode.WebviewViewProvider {
   }
 
   public async setValues(values: any) {
-    const toolCase = casesService.currentToolCase;
+    const toolCase = await casesService.getCurrentCase();
     if (toolCase) {
-      await casesService.upsertCase({ ...toolCase, optionValues: values });
-      await writeOutput();
+      await casesService.upsertMemoryCase({
+        ...toolCase,
+        optionValues: values,
+      });
     }
   }
 

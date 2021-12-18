@@ -1,17 +1,17 @@
-import * as _ from "lodash";
 import * as vscode from "vscode";
 import { IToolCase, IToolCaseRaw } from "..";
-import { ToolCaseStoreType, ToolCaseType } from "../enum";
+import { CaseType } from "../enum";
 import { toolboxesService } from "../extension";
 import {
   parseQuery,
   safeGetGlobalStorageUri,
   safeJSONparse as safeJSONParse,
   safeReadFileContent,
+  stringifyQuery,
 } from "../share";
 
 export class CasesService {
-  public currentToolCase: IToolCase | null = null;
+  private _currentCase: IToolCase | undefined;
 
   private casesUri: Promise<vscode.Uri>;
 
@@ -21,7 +21,35 @@ export class CasesService {
     this.casesUri = this.getCasesUri(casesUri);
   }
 
-  public async caseNameInputBox(
+  async getCurrentCase(uri?: vscode.Uri): Promise<IToolCase | undefined> {
+    let _uri = uri || this._currentCase?.uri;
+
+    if (!_uri) {
+      return undefined;
+    }
+
+    return this.getCase(_uri);
+  }
+
+  setCurrentCase(toolCase: IToolCase) {
+    this._currentCase = toolCase;
+  }
+
+  async getCasesUri(casesUri?: vscode.Uri) {
+    if (casesUri) {
+      return casesUri;
+    }
+
+    const globalStorageUri = await safeGetGlobalStorageUri();
+    return vscode.Uri.joinPath(globalStorageUri, "cases.json");
+  }
+
+  getCaseId(uri: vscode.Uri): string {
+    const query = parseQuery(uri.query);
+    return vscode.Uri.joinPath(uri, query.case || "").path;
+  }
+
+  async caseNameInputBox(
     toolUri: vscode.Uri,
     value: string = ""
   ): Promise<string | undefined> {
@@ -38,8 +66,8 @@ export class CasesService {
           return "Invalid character. Please enter 0-9, a-z, A-Z or '_ -()[].'";
         }
 
-        const uri = vscode.Uri.joinPath(toolUri, value);
-        if (await this.getCaseByUri(uri)) {
+        const uri = toolUri.with({ query: stringifyQuery({ case: value }) });
+        if (await this.getDiskCase(uri)) {
           return "A case already exists. Please choose a different name.";
         }
 
@@ -48,7 +76,77 @@ export class CasesService {
     });
   }
 
-  public getDefaultCaseOptionValues(options: any): any {
+  async getCase(uri: vscode.Uri): Promise<IToolCase | undefined> {
+    const caseId = this.getCaseId(uri);
+
+    // memory case
+    let toolCase = await this.memoryCases.get(caseId);
+
+    if (toolCase) {
+      return toolCase;
+    }
+
+    // disk case
+    toolCase = await this.getDiskCase(uri);
+
+    // default case config
+    if (!toolCase) {
+      const tool = await toolboxesService.getTool(uri);
+      toolCase = {
+        uri: uri,
+        content: "",
+        optionValues: this.getDefaultCaseOptionValues(tool?.options),
+        mtime: Date.now(),
+      };
+    }
+
+    if (toolCase) {
+      this.memoryCases.set(caseId, toolCase);
+    }
+
+    return toolCase;
+  }
+
+  async getDiskCases(uri?: vscode.Uri): Promise<IToolCase[]> {
+    const casesUri = await this.casesUri;
+    const casesContent = await safeReadFileContent(casesUri, "[]");
+    const rawCases = safeJSONParse(casesContent);
+
+    const cases = rawCases.map((rawCase: any) => {
+      const uri = vscode.Uri.parse(rawCase.uri);
+      const label = parseQuery(uri.query).case;
+
+      return {
+        ...rawCase,
+        label,
+        uri,
+      };
+    });
+
+    if (uri) {
+      const casePath = uri.path;
+      return cases.filter(
+        (toolCase: IToolCase) => casePath === toolCase.uri.path
+      );
+    }
+
+    return cases;
+  }
+
+  async getDiskCase(uri: vscode.Uri): Promise<IToolCase | undefined> {
+    const caseId = this.getCaseId(uri);
+
+    const cases = await this.getDiskCases();
+    for (const toolCase of cases) {
+      if (caseId === this.getCaseId(toolCase.uri)) {
+        return toolCase;
+      }
+    }
+
+    return undefined;
+  }
+
+  getDefaultCaseOptionValues(options: any): any {
     if (!options) {
       return undefined;
     }
@@ -57,110 +155,29 @@ export class CasesService {
     for (const option of options) {
       values[option.name] = option.default;
     }
+
     return values;
   }
 
-  public async getCasesUri(casesUri?: vscode.Uri) {
-    if (casesUri) {
-      return casesUri;
-    }
+  // memory case
+  // const query = parseQuery(uri.query);
+  // if (query.storeType === ToolCaseStoreType.MENORY) {
+  //   await this.memoryCases.delete(caseId);
+  //   return true;
+  // }
 
-    const globalStorageUri = await safeGetGlobalStorageUri();
-    return vscode.Uri.joinPath(globalStorageUri, "cases.json");
-  }
+  async deleteDiskCase(uri: vscode.Uri) {
+    const caseId = this.getCaseId(uri);
 
-  public async getCasesRaw(): Promise<IToolCaseRaw[]> {
     const casesUri = await this.casesUri;
-    const casesContent = await safeReadFileContent(casesUri, "[]");
-    const cases = safeJSONParse(casesContent);
-    return cases;
-  }
-
-  public async getCases(): Promise<IToolCase[]> {
-    const cases = (await this.getCasesRaw()).map((c: any) => ({
-      ...c,
-      uri: vscode.Uri.parse(c.uri),
-      type: ToolCaseType.TOOLCASE,
-      storeType: ToolCaseStoreType.FILE,
-    }));
-    return cases;
-  }
-
-  public async getCaseByUri(uri: vscode.Uri): Promise<IToolCase | null> {
-    // memory case
-    const query = parseQuery(uri.query);
-    if (query.storeType === ToolCaseStoreType.MENORY) {
-      return (await this.memoryCases.get(uri.toString())) || null;
-    }
-
-    // file case
-    const cases = await this.getCases();
-    const uriPath = uri.path;
-    for (const toolCase of cases) {
-      if (uriPath === toolCase.uri.path) {
-        return toolCase;
-      }
-    }
-
-    return null;
-  }
-
-  public async getOrUpsertCaseByUri(uri: vscode.Uri): Promise<IToolCase> {
-    // memory case
-    const query = parseQuery(uri.query);
-    if (query.storeType === ToolCaseStoreType.MENORY) {
-      const toolCase = await this.memoryCases.get(uri.toString());
-      if (toolCase) {
-        return toolCase;
-      }
-    }
-
-    // file case
-    const cases = await this.getCases();
-    const uriPath = uri.path;
-    for (const toolCase of cases) {
-      if (uriPath === toolCase.uri.path) {
-        await this.upsertCase({ ...toolCase, uri });
-        return toolCase;
-      }
-    }
-
-    // default case config
-    const tool = await toolboxesService.getToolByCaseUri(uri);
-    let toolCase: IToolCase = {
-      uri: uri,
-      content: "",
-      optionValues: this.getDefaultCaseOptionValues(tool?.options),
-    };
-
-    await this.upsertCase(toolCase);
-
-    return toolCase;
-  }
-
-  public async deleteCase(uri: vscode.Uri) {
-    // memory case
-    const query = parseQuery(uri.query);
-    if (query.storeType === ToolCaseStoreType.MENORY) {
-      await this.memoryCases.delete(uri.toString());
-      return true;
-    }
-
-    // file case
-    const casesUri = await this.casesUri;
-    const toolCasePath = uri.path;
-    const cases = await this.getCases();
+    const cases = await this.getDiskCases();
 
     const casesResult: IToolCaseRaw[] = [];
     cases.forEach((toolCase) => {
-      const uriPath = toolCase.uri.path;
-      if (uriPath === toolCasePath) {
+      if (caseId === this.getCaseId(toolCase.uri)) {
         return;
       }
-      casesResult.push({
-        ...toolCase,
-        uri: toolCase.uri.toString(),
-      });
+      casesResult.push(this.getRawCase(toolCase));
     });
 
     await vscode.workspace.fs.writeFile(
@@ -171,57 +188,99 @@ export class CasesService {
     return true;
   }
 
-  public async upsertCase(toolCase: IToolCase, uri?: vscode.Uri) {
-    // memory case
-    const query = parseQuery(toolCase.uri.query);
-    if (query.storeType === ToolCaseStoreType.MENORY) {
-      await this.memoryCases.set(toolCase.uri.toString(), toolCase);
-      return true;
+  async upsertMemoryCase(toolCase: IToolCase) {
+    this.memoryCases.set(this.getCaseId(toolCase.uri), {
+      ...toolCase,
+      mtime: Date.now(),
+    });
+
+    // TODO: fire file change (current using writeTextDocument)
+    // toolFileSystemProvider.emitter.fire([
+    //   {
+    //     type: 1,
+    //     uri: toolCase.uri,
+    //   },
+    // ]);
+
+    await toolboxesService.runTool();
+
+    return true;
+  }
+
+  async upsertMemoryCaseContent(doc: vscode.TextDocument) {
+    const toolCase = await this.getCase(doc.uri);
+
+    if (!toolCase) {
+      return false;
     }
 
-    // file case
+    await this.upsertMemoryCase({
+      ...toolCase,
+      content: doc.getText(),
+    });
+
+    return true;
+  }
+
+  async upsertDiskCase(toolCase: IToolCase) {
+    const caseId = this.getCaseId(toolCase.uri);
+
     const casesUri = await this.casesUri;
-    const updateToolCaseUriPath = (uri || toolCase.uri).path;
-    const cases = await this.getCases();
+    const diskCases = await this.getDiskCases();
 
     let isUpdate = false;
-    const casesJSON = cases.map((c) => {
-      const uriPath = c.uri.path;
-      if (uriPath === updateToolCaseUriPath) {
+    const resultCases = diskCases.map((diskCase) => {
+      if (caseId === this.getCaseId(diskCase.uri)) {
         isUpdate = true;
-        return { ...toolCase, uri: toolCase.uri.toString() };
+        return this.getRawCase(toolCase, { updateMtime: true });
       }
-      return { ...c, uri: c.uri.toString() };
+      return this.getRawCase(diskCase, { updateMtime: true });
     });
 
     if (!isUpdate) {
-      casesJSON.push({ ...toolCase, uri: toolCase.uri.toString() });
+      resultCases.push(this.getRawCase(toolCase, { updateMtime: true }));
     }
 
     await vscode.workspace.fs.writeFile(
       casesUri,
-      Buffer.from(JSON.stringify(casesJSON))
+      Buffer.from(JSON.stringify(resultCases))
     );
 
     return true;
   }
 
-  public async getCasesByToolUri(toolUri: vscode.Uri): Promise<IToolCase[]> {
-    const cases = await this.getCases();
-    const result: IToolCase[] = [];
-    const toolPath = toolUri.path;
+  async getBuiltinCases(uri: vscode.Uri): Promise<IToolCase[]> {
+    const tool = await toolboxesService.getTool(uri);
 
-    for (const toolCase of cases) {
-      const caseToolPath = this.getToolUri(toolCase.uri).path;
-      if (caseToolPath === toolPath) {
-        result.push(toolCase);
-      }
+    if (!tool) {
+      return [];
     }
 
-    return result;
+    if (!Array.isArray(tool.cases)) {
+      return [];
+    }
+
+    return tool.cases.map((caseObj) => {
+      return { ...caseObj, uri: tool.uri, type: CaseType.BUILTIN };
+    });
   }
 
-  public getToolUri(caseUri: vscode.Uri) {
-    return vscode.Uri.joinPath(caseUri, "..");
+  getRawCase(
+    toolCase: IToolCase,
+    { updateMtime }: { updateMtime?: boolean } = {}
+  ) {
+    return {
+      ...toolCase,
+      uri: toolCase.uri.toString(),
+      mtime: updateMtime ? Date.now() : toolCase.mtime,
+    };
+  }
+
+  async getCases(uri: vscode.Uri): Promise<IToolCase[]> {
+    const builtinCases: IToolCase[] = await this.getBuiltinCases(uri);
+
+    const diskCases = await this.getDiskCases(uri);
+
+    return [...builtinCases, ...diskCases];
   }
 }

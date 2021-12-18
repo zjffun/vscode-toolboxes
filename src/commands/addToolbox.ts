@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { toolboxesService } from "../extension";
 
-export default async (toolboxUri: vscode.Uri): Promise<boolean> => {
+const addToolbox = async (toolboxUri: vscode.Uri): Promise<boolean> => {
   const options: vscode.OpenDialogOptions = {
     canSelectMany: false,
     openLabel: "Select toolbox",
@@ -21,4 +21,12 @@ export default async (toolboxUri: vscode.Uri): Promise<boolean> => {
   return true;
 };
 
+export default addToolbox;
+
 export const addToolboxCommandId = "toolboxes.addToolbox";
+
+export const regist = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(addToolboxCommandId, addToolbox)
+  );
+};

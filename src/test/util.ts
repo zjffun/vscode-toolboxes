@@ -37,27 +37,6 @@ export async function writeFile(uri: vscode.Uri, content: string) {
   await vscode.workspace.fs.writeFile(uri, Buffer.from(content));
 }
 
-export async function writeTextDocument(
-  textDocument: vscode.TextDocument,
-  content: string
-) {
-  const workspaceEdit = new vscode.WorkspaceEdit();
-
-  workspaceEdit.replace(
-    textDocument.uri,
-    new vscode.Range(0, 0, textDocument.lineCount, 0),
-    content
-  );
-
-  const res = await vscode.workspace.applyEdit(workspaceEdit);
-
-  if (!res) {
-    throw Error("applyEdit failed");
-  }
-
-  await textDocument.save();
-}
-
 export async function closeAllEditors() {
   return vscode.commands.executeCommand("workbench.action.closeAllEditors");
 }
@@ -78,6 +57,8 @@ export const createInputUri = (path: string, query?: IQuery): vscode.Uri => {
     query: stringifyQuery(query || {}),
   });
 };
+
+export const builtinInputUri = createInputUri("/builtin/web/url-encode", {});
 
 export const createToolbox1InputUri = (
   path: string,

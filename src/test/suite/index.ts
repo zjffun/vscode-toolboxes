@@ -48,32 +48,14 @@ async function init() {
   const casesUri = await createFile("test-cases.json", "");
   setCaseService(new CasesService({ casesUri }));
 
-  const toolboxesUri = await createFile("test-toolboxes.json", "[]");
-  const toolboxesService = new ToolboxesService({ toolboxesUri });
+  const toolboxesJsonUri = await createFile("test-toolboxes.json", "[]");
+  const toolboxesService = new ToolboxesService({
+    toolboxesJsonUri,
+  });
   setToolboxesService(toolboxesService);
 
-  await toolboxesService.addToolboxDir(
-    path.join(
-      __dirname,
-      "../",
-      "../",
-      "../",
-      "src",
-      "test",
-      "toolboxes-test",
-      "toolbox1"
-    )
-  );
-  await toolboxesService.addToolboxDir(
-    path.join(
-      __dirname,
-      "../",
-      "../",
-      "../",
-      "src",
-      "test",
-      "toolboxes-test",
-      "toolbox2"
-    )
-  );
+  toolboxesService.addToolbox({
+    label: "test",
+    url: "test",
+  });
 }

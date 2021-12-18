@@ -1,6 +1,5 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import { ToolCaseStoreType } from "../../enum";
 import { casesService } from "../../extension";
 import {
   closeAllEditors,
@@ -20,76 +19,79 @@ suite("CasesService", () => {
   });
 
   suite("upsertCase", () => {
-    async function upsertCase(uri: vscode.Uri) {
+    async function upsertCase(uri: vscode.Uri) {}
+
+    test("upsert disk case should work", async () => {
+      const uri = createToolbox1InputUri("/test", { case: "upsertDiskCase" });
+
       let toolCase;
 
-      toolCase = await casesService.getCaseByUri(uri);
-      assert.strictEqual(toolCase, null);
+      toolCase = await casesService.getDiskCase(uri);
+      assert.strictEqual(toolCase, undefined);
 
       assert.ok(
-        await casesService.upsertCase({
+        await casesService.upsertDiskCase({
           uri: uri,
           content: "foo",
+          mtime: Date.now(),
         })
       );
-      toolCase = await casesService.getCaseByUri(uri);
+      toolCase = await casesService.getDiskCase(uri);
       assert.strictEqual(toolCase?.content, "foo");
 
       assert.ok(
-        await casesService.upsertCase({
+        await casesService.upsertDiskCase({
           uri: uri,
           content: "bar",
+          mtime: Date.now(),
         })
       );
-      toolCase = await casesService.getCaseByUri(uri);
+      toolCase = await casesService.getDiskCase(uri);
       assert.strictEqual(toolCase?.content, "bar");
-    }
-
-    test("upsert file case should work", async () => {
-      await upsertCase(
-        createToolbox1InputUri("/test/upsertCase", {
-          storeType: ToolCaseStoreType.FILE,
-        })
-      );
     });
 
     test("upsert memory case should work", async () => {
-      await upsertCase(
-        createToolbox1InputUri("/test/upsertCase", {
-          storeType: ToolCaseStoreType.MENORY,
+      const uri = createToolbox1InputUri("/test", { case: "upsertMemoryCase" });
+
+      let toolCase;
+
+      assert.ok(
+        await casesService.upsertMemoryCase({
+          uri: uri,
+          content: "foo",
+          mtime: Date.now(),
         })
       );
+      toolCase = await casesService.getCase(uri);
+      assert.strictEqual(toolCase?.content, "foo");
+
+      assert.ok(
+        await casesService.upsertMemoryCase({
+          uri: uri,
+          content: "bar",
+          mtime: Date.now(),
+        })
+      );
+      toolCase = await casesService.getCase(uri);
+      assert.strictEqual(toolCase?.content, "bar");
     });
   });
 
   suite("deleteCase", () => {
-    async function deleteCase(uri: vscode.Uri) {
+    test("delete disk case should work", async () => {
+      const uri = createToolbox1InputUri("/test", { case: "deleteCase" });
+
       let toolCase;
-      await casesService.upsertCase({
+      await casesService.upsertDiskCase({
         uri: uri,
         content: "bar",
+        mtime: Date.now(),
       });
 
-      assert.ok(await casesService.deleteCase(uri));
+      assert.ok(await casesService.deleteDiskCase(uri));
 
-      toolCase = await casesService.getCaseByUri(uri);
-      assert.strictEqual(toolCase, null);
-    }
-
-    test("delete memory case should work", async () => {
-      await deleteCase(
-        createToolbox1InputUri("/test/deleteCase", {
-          storeType: ToolCaseStoreType.MENORY,
-        })
-      );
-    });
-
-    test("delete file case should work", async () => {
-      await deleteCase(
-        createToolbox1InputUri("/test/deleteCase", {
-          storeType: ToolCaseStoreType.FILE,
-        })
-      );
+      toolCase = await casesService.getDiskCase(uri);
+      assert.strictEqual(toolCase, undefined);
     });
   });
 });

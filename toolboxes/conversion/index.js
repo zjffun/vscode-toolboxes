@@ -1,7 +1,7 @@
-async function output({ input, options, tool, require: outerRequire }) {
-  const XMLJS = outerRequire("xml-js");
-  const YAML = outerRequire("YAML");
-  const JSON5 = outerRequire("json5");
+async function output({ input, options, tool }) {
+  const XMLJS = require("xml-js");
+  const YAML = require("YAML");
+  const JSON5 = require("json5");
 
   // TypeError [ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING]: A dynamic import callback was not specified.
   // let d3dsv = import("d3-dsv");
@@ -52,8 +52,8 @@ async function output({ input, options, tool, require: outerRequire }) {
     }
     return result;
   } catch (error) {
-    return error?.toString() || "unknow error";
+    return (error && error.toString()) || "unknow error";
   }
 }
 
-exports.output = output;
+export default output;

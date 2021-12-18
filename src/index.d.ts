@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
-import { ToolCaseStoreType, ToolCaseType } from "./enum";
+import { CaseType } from "./enum";
 
 export interface ITool {
   label: string;
-  // For downloading and locating tools.
-  url: string;
   // The id must be unique in the toolbox
   id?: string;
+  // deafult index.js
   main?: string;
   autoRun?: boolean;
   optionCategories?: string[];
@@ -15,15 +14,20 @@ export interface ITool {
   // For uniquely identify tools and cases.
   uri?: vscode.Uri;
   type?: string;
+  cases?: any[];
+
+  // For downloading and locating tools.
+  url?: string;
 }
 export interface IToolConfig {
   label: string;
-  url?: string;
   id?: string;
   main?: string;
   autoRun?: boolean;
   optionCategories?: string[];
   options?: any[];
+
+  url?: string;
 }
 
 export interface IToolCaseBase {
@@ -34,20 +38,20 @@ export interface IToolCaseBase {
 
 export interface IToolCase extends IToolCaseBase {
   uri: vscode.Uri;
+  mtime: number;
+  type?: CaseType;
 }
 
 export interface IToolCaseRaw extends IToolCaseBase {
   uri: string;
+  mtime: number;
 }
 
 export interface IQuery {
-  type?: ToolCaseType;
-  // caseName when type is TOOL for test
-  caseName?: string;
-  storeType?: ToolCaseStoreType;
+  case?: string;
 }
 
-export interface IToolboxMetadata {
+export interface IToolboxConfig {
   type?: string;
   label: string;
   url: string;

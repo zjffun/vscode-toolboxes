@@ -1,0 +1,28 @@
+{
+  "label": "NPM",
+  "tools": [
+    {
+      "id": "set-registry",
+      "label": "Set Registry",
+      "tags": ["切换源", "registry"],
+      "cases": [
+        {
+          "label": "taobao",
+          "content": "https://registry.npm.taobao.org/"
+        },
+        {
+          "label": "npm",
+          "content": "https://registry.npmjs.org/"
+        },
+        {
+          "label": "cnpm",
+          "content": "http://r.cnpmjs.org/"
+        },
+        {
+          "label": "yarn",
+          "content": "https://registry.yarnpkg.com/"
+        }
+      ]
+    }
+  ]
+}

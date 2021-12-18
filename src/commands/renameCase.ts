@@ -1,13 +1,17 @@
 import * as vscode from "vscode";
 import { IToolCase } from "..";
-import { casesService, casesView } from "../extension";
+import { casesService } from "../extension";
+import { stringifyQuery } from "../share";
+import refreshCases from "./refreshCases";
 
-export default async (toolCase: IToolCase, name?: string): Promise<boolean> => {
+const renameCase = async (
+  toolCase: IToolCase,
+  name?: string
+): Promise<boolean> => {
   const { uri } = toolCase;
   let _name = name;
   if (_name === undefined || typeof _name !== "string") {
-    // TODO: set default value
-    _name = await casesService.caseNameInputBox(uri);
+    _name = await casesService.caseNameInputBox(uri, toolCase.label);
   }
 
   if (!_name) {
@@ -15,18 +19,25 @@ export default async (toolCase: IToolCase, name?: string): Promise<boolean> => {
   }
 
   try {
-    await vscode.workspace.fs.rename(
-      uri,
-      vscode.Uri.joinPath(uri, "..", _name)
-    );
+    toolCase.uri = uri.with({ query: stringifyQuery({ case: _name }) });
+    await casesService.deleteDiskCase(uri);
+    await casesService.upsertDiskCase(toolCase);
+
+    await refreshCases();
   } catch (error) {
     console.error(error);
     return false;
   }
 
-  casesView.refresh();
-
   return true;
 };
 
+export default renameCase;
+
 export const renameCaseCommandId = "_toolboxes.renameCase";
+
+export const regist = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(renameCaseCommandId, renameCase)
+  );
+};

@@ -1,22 +1,21 @@
 import * as vscode from "vscode";
+import { showOutputDoc } from "../core/output";
 
-export default async (): Promise<vscode.TextEditor | undefined> => {
+const showOutput = async (): Promise<vscode.TextEditor | undefined> => {
   try {
-    const outputTextDocument = await vscode.workspace.openTextDocument(
-      vscode.Uri.from({
-        path: "/Tool Output",
-        scheme: "toolboxes-output",
-      })
-    );
-
-    return vscode.window.showTextDocument(outputTextDocument, {
-      viewColumn: vscode.ViewColumn.Two,
-      preview: false,
-    });
+    return await showOutputDoc();
   } catch (error) {
     console.error(error);
   }
   return undefined;
 };
 
+export default showOutput;
+
 export const showOutputCommandId = "toolboxes.showOutput";
+
+export const regist = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(showOutputCommandId, showOutput)
+  );
+};

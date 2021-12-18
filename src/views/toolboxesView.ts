@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { ITool } from "..";
 import { ToolboxesService } from "../core/toolboxesService";
+import { context } from "../share";
 
 export default class ToolboxesView implements vscode.TreeDataProvider<ITool> {
   protected _onDidChangeTreeData: vscode.EventEmitter<any> =
@@ -14,7 +15,7 @@ export default class ToolboxesView implements vscode.TreeDataProvider<ITool> {
 
   protected context: vscode.ExtensionContext;
 
-  constructor(context: vscode.ExtensionContext) {
+  constructor() {
     this.context = context;
 
     vscode.window.createTreeView(ToolboxesView.viewId, {
@@ -42,7 +43,7 @@ export default class ToolboxesView implements vscode.TreeDataProvider<ITool> {
       collapsibleState: isContainer
         ? vscode.TreeItemCollapsibleState.Collapsed
         : undefined,
-      // resourceUri: element.uri,
+      resourceUri: element.uri,
     };
   }
 
@@ -54,10 +55,6 @@ export default class ToolboxesView implements vscode.TreeDataProvider<ITool> {
 
   protected getTreeElement = async (element: ITool) => {
     if (!element?.children) {
-      if (element?.type === "toolbox") {
-        const tree = await this.toolboxesService.getToolboxTree(element.url);
-        return tree.children || [];
-      }
       return [];
     }
 

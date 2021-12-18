@@ -1,7 +1,5 @@
 {
-  "url": "./toolboxes/conversion",
   "label": "Conversion",
-  "main": "./index.js",
   "tools": [
     {
       "id": "convert",

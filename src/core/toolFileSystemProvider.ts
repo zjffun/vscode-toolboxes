@@ -1,30 +1,23 @@
 import * as vscode from "vscode";
-import { ToolCaseStoreType, ToolCaseType } from "../enum";
-import {
-  casesService,
-  casesView,
-  optionsView,
-  toolboxesService,
-} from "../extension";
-import { parseQuery } from "../share";
-import { writeOutput } from "./output";
+import refreshCases from "../commands/refreshCases";
+import refreshOptions from "../commands/refreshOptions";
+import { casesService, toolboxesService } from "../extension";
+import { parseQuery, stringifyQuery } from "../share";
 
 export default class ToolFileSystemProvider
   implements vscode.FileSystemProvider
 {
   async stat(uri: vscode.Uri): Promise<vscode.FileStat> {
-    const query = parseQuery(uri.query);
-
-    if (
-      query?.storeType !== ToolCaseStoreType.MENORY &&
-      !(await casesService.getCaseByUri(uri))
-    ) {
+    const toolCase = await casesService.getCase(uri);
+    if (!toolCase) {
       throw vscode.FileSystemError.FileNotFound(uri);
     }
 
     return {
       type: vscode.FileType.File,
       ctime: 0,
+      // TODO: fire file change (current using writeTextDocument)
+      // mtime: toolCase.mtime,
       mtime: 0,
       size: 0,
     };
@@ -37,7 +30,7 @@ export default class ToolFileSystemProvider
   // --- manage file contents
 
   async readFile(uri: vscode.Uri): Promise<Uint8Array> {
-    const toolCase = await casesService.getOrUpsertCaseByUri(uri);
+    const toolCase = await casesService.getCase(uri);
     return new Uint8Array(Buffer.from(toolCase?.content || ""));
   }
 
@@ -47,35 +40,25 @@ export default class ToolFileSystemProvider
     options: { create: boolean; overwrite: boolean }
   ): Promise<void> {
     const query = parseQuery(uri.query);
-    let _uri = uri.with({ query: "" });
     let toolCase = {
-      uri: _uri,
+      uri,
       content: content.toString(),
-      optionValues: (await casesService.getCaseByUri(uri))?.optionValues,
+      optionValues: (await casesService.getCase(uri))?.optionValues,
+      mtime: Date.now(),
     };
 
-    if (query?.type === ToolCaseType.TOOLCASE) {
-      await casesService.upsertCase(toolCase);
-
-      casesView.refresh();
-
-      return;
+    let caseName = query?.case;
+    if (caseName === undefined || typeof caseName !== "string") {
+      caseName = await casesService.caseNameInputBox(uri);
     }
 
-    if (query?.type === ToolCaseType.TOOL) {
-      let name = query?.caseName;
-      if (name === undefined || typeof name !== "string") {
-        name = await casesService.caseNameInputBox(_uri);
-      }
+    if (caseName) {
+      toolCase.uri = toolCase.uri.with({
+        query: stringifyQuery({ case: caseName }),
+      });
+      await casesService.upsertDiskCase(toolCase);
 
-      if (name) {
-        toolCase.uri = vscode.Uri.joinPath(_uri, name);
-        await casesService.upsertCase(toolCase);
-
-        casesView.refresh();
-      }
-
-      return;
+      refreshCases();
     }
   }
 
@@ -84,43 +67,40 @@ export default class ToolFileSystemProvider
     oldUri: vscode.Uri,
     newUri: vscode.Uri,
     options: { overwrite: boolean }
-  ): Promise<void> {
-    const toolCase = await casesService.getCaseByUri(oldUri);
-    if (toolCase) {
-      toolCase.uri = newUri;
-      await casesService.upsertCase(toolCase, oldUri);
-    } else {
-      throw Error(`Can't find case.`);
-    }
-  }
+  ): Promise<void> {}
 
   async delete(uri: vscode.Uri): Promise<void> {
-    await casesService.deleteCase(uri);
+    await casesService.deleteDiskCase(uri);
 
-    casesView.refresh();
+    refreshCases();
   }
 
   createDirectory(uri: vscode.Uri): void {}
 
   // --- manage file events
 
-  private _emitter = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
+  emitter = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
 
   readonly onDidChangeFile: vscode.Event<vscode.FileChangeEvent[]> =
-    this._emitter.event;
+    this.emitter.event;
 
-  async setData(uri: vscode.Uri) {
-    let toolCase = await casesService.getOrUpsertCaseByUri(uri);
+  async doWatch(uri: vscode.Uri) {
+    let toolCase = await casesService.getCase(uri);
 
-    casesService.currentToolCase = toolCase;
+    if (!toolCase) {
+      return;
+    }
 
-    optionsView.refresh();
-    casesView.refresh();
-    writeOutput();
+    casesService.setCurrentCase(toolCase);
+
+    refreshOptions();
+    refreshCases();
+
+    await toolboxesService.runTool();
   }
 
   watch(uri: vscode.Uri): vscode.Disposable {
-    this.setData(uri);
+    this.doWatch(uri);
     return new vscode.Disposable(() => {});
   }
 }

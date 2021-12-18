@@ -175,7 +175,8 @@ export class ToolboxesService {
   }
 
   getInfo(uri: vscode.Uri) {
-    const paths = uri.path.split(path.sep);
+    // always "/" not path.sep
+    const paths = uri.path.split("/");
 
     const [_, type, name, id] = paths;
 

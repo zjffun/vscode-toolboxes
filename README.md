@@ -14,6 +14,10 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.3
+
+- Added features builtin cases.
+
 ### v0.0.2
 
 - Fix bug CSV TSV conversion doesn't work.

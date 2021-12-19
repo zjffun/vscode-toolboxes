@@ -2,7 +2,7 @@
   "label": "Conversion",
   "tools": [
     {
-      "id": "convert",
+      "id": "convert-data",
       "label": "Convert JSON5 JSON YAML XML CSV TSV",
       "autoRun": true,
       "options": [
@@ -68,6 +68,55 @@
             },
             {
               "value": "TSV",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "convert-variable-name",
+      "label": "Convert camelCase kebab-case PascalCase",
+      "autoRun": true,
+      "options": [
+        {
+          "name": "from",
+          "label": "from",
+          "type": "choice",
+          "description": "",
+          "default": "camelCase",
+          "choices": [
+            {
+              "value": "camelCase",
+              "description": ""
+            },
+            {
+              "value": "kebab-case",
+              "description": ""
+            },
+            {
+              "value": "PascalCase",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "to",
+          "label": "to",
+          "type": "choice",
+          "description": "",
+          "default": "kebab-case",
+          "choices": [
+            {
+              "value": "camelCase",
+              "description": ""
+            },
+            {
+              "value": "kebab-case",
+              "description": ""
+            },
+            {
+              "value": "PascalCase",
               "description": ""
             }
           ]

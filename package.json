@@ -261,6 +261,7 @@
     "lodash": "^4.17.21",
     "prettier": "^2.4.1",
     "qs": "^6.10.1",
+    "split-split": "^0.0.1",
     "vscode-ext-codicons": "^1.4.0",
     "vscode-ext-help-and-feedback-view": "^1.0.1",
     "xml-js": "^1.6.11",

@@ -1,0 +1,10 @@
+{
+  "label": "crypto",
+  "tools": [
+    {
+      "id": "hash",
+      "label": "hash",
+      "autoRun": true
+    }
+  ]
+}

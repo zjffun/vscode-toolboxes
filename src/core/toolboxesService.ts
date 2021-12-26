@@ -13,7 +13,7 @@ import { inputScheme } from "./input";
 import { outputDoc } from "./output";
 const esmRequire = require("esm")(module);
 
-const builtinToolboxNames = ["web", "conversion", "npm", "pip"];
+const builtinToolboxNames = ["web", "conversion", "npm", "pip", "crypto"];
 
 type RecursiveConfig = {
   before: (rawTool: any) => ITool;

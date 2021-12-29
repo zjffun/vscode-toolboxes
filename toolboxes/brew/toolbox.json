@@ -1,0 +1,29 @@
+{
+  "label": "Homebrew",
+  "tools": [
+    {
+      "id": "set-registry",
+      "label": "Set Registry",
+      "tags": ["切换源", "registry"],
+      "cases": [
+        {
+          "label": "阿里",
+          "content": "https://mirrors.aliyun.com/homebrew/"
+        },
+        {
+          "label": "清华",
+          "content": "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/"
+        },
+        {
+          "label": "中科大",
+          "content": "https://mirrors.ustc.edu.cn/"
+        }
+      ]
+    },
+    {
+      "id": "show-registry",
+      "label": "Show Registry",
+      "tags": ["查看源", "registry"]
+    }
+  ]
+}

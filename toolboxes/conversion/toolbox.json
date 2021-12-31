@@ -122,6 +122,49 @@
           ]
         }
       ]
+    },
+    {
+      "id": "convert-date",
+      "label": "Convert Date",
+      "autoRun": true,
+      "options": [
+        {
+          "name": "type",
+          "label": "type",
+          "type": "choice",
+          "description": "",
+          "default": "EpochSeconds",
+          "choices": [
+            {
+              "value": "EpochSeconds",
+              "description": ""
+            },
+            {
+              "value": "EpochMilliseconds",
+              "description": ""
+            },
+            {
+              "value": "EpochMicroseconds",
+              "description": ""
+            },
+            {
+              "value": "EpochNanoseconds",
+              "description": ""
+            },
+            {
+              "value": "ISO 8601",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "timeZone",
+          "label": "timeZone",
+          "type": "string",
+          "description": "",
+          "default": "UTC"
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 import convertData from "./tools/convertData.js";
+import convertDate from "./tools/convertDate.js";
 import convertVariableName from "./tools/convertVariableName.js";
 
 async function output({ input, options, tool }) {
@@ -8,8 +9,9 @@ async function output({ input, options, tool }) {
     let result;
     switch (toolId) {
       case "convert-data":
-        console.log(convertData(input, options));
         return convertData(input, options);
+      case "convert-date":
+        return await convertDate(input, options);
       case "convert-variable-name":
         return convertVariableName(input, options);
       default:

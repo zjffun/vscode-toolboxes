@@ -251,6 +251,7 @@
     "webpack-dev-server": "^4.0.0"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.3.0",
     "@vscode/codicons": "^0.0.21",
     "@vscode/webview-ui-toolkit": "^0.8.2",
     "d3-dsv": "^3.0.1",

@@ -1,14 +1,17 @@
 import * as vscode from "vscode";
 import { IToolCase, IToolCaseRaw } from "..";
-import { CaseType } from "../enum";
+import { CaseType, RunType } from "../enum";
 import { toolboxesService } from "../extension";
 import {
   parseQuery,
+  runInTerminal,
   safeGetGlobalStorageUri,
   safeJSONparse as safeJSONParse,
   safeReadFileContent,
   stringifyQuery,
+  writeTextDocument,
 } from "../share";
+import { outputDoc } from "./output";
 
 export class CasesService {
   private _currentCase: IToolCase | undefined;
@@ -19,6 +22,50 @@ export class CasesService {
 
   constructor({ casesUri }: { casesUri?: vscode.Uri } = {}) {
     this.casesUri = this.getCasesUri(casesUri);
+  }
+
+  async execCurrentCase({ run }: { run?: boolean } = {}): Promise<boolean> {
+    const toolCase = await this.getCurrentCase();
+    if (!toolCase) {
+      return false;
+    }
+
+    const tool = await toolboxesService.getTool(toolCase.uri);
+    if (!tool) {
+      return false;
+    }
+
+    const optionValues = toolCase.optionValues;
+    try {
+      const importedTool = await toolboxesService.importTool(tool);
+      const result = await importedTool.default({
+        input: toolCase.content,
+        options: optionValues,
+        tool,
+        require,
+      });
+
+      if (run) {
+        if (tool.run === RunType.TERMINAL) {
+          runInTerminal(result);
+          return true;
+        }
+
+        if (tool.run === RunType.NEWTERMINAL) {
+          runInTerminal(result, { newTerminal: true });
+          return true;
+        }
+
+        console.error("Unknow RunType.");
+        return false;
+      }
+
+      outputDoc && writeTextDocument(outputDoc, result, { save: false });
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 
   async getCurrentCase(uri?: vscode.Uri): Promise<IToolCase | undefined> {
@@ -202,7 +249,7 @@ export class CasesService {
     //   },
     // ]);
 
-    await toolboxesService.runTool();
+    await this.execCurrentCase();
 
     return true;
   }
@@ -274,6 +321,22 @@ export class CasesService {
       uri: toolCase.uri.toString(),
       mtime: updateMtime ? Date.now() : toolCase.mtime,
     };
+  }
+
+  async getCurrentCases(): Promise<IToolCase[]> {
+    const toolCase = await this.getCurrentCase();
+    if (!toolCase) {
+      return [];
+    }
+
+    const tool = await toolboxesService.getTool(toolCase.uri);
+    if (!tool || !tool.uri) {
+      return [];
+    }
+
+    const cases = await this.getCases(tool.uri);
+
+    return cases;
   }
 
   async getCases(uri: vscode.Uri): Promise<IToolCase[]> {

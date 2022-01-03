@@ -58,14 +58,19 @@
     "menus": {
       "view/item/context": [
         {
-          "command": "_toolboxes.renameCase",
-          "when": "viewItem == toolboxes-activitybarView-casesView-treeItem",
+          "command": "toolboxes.runCase",
+          "when": "toolboxesToolFileSystemProviderRunableTool && viewItem =~ /toolboxes-activitybarView-casesView-treeItem/",
           "group": "inline@1"
         },
         {
-          "command": "_toolboxes.deleteCase",
-          "when": "viewItem == toolboxes-activitybarView-casesView-treeItem",
+          "command": "_toolboxes.renameCase",
+          "when": "viewItem =~ /toolboxes-activitybarView-casesView-treeItem-user/",
           "group": "inline@2"
+        },
+        {
+          "command": "_toolboxes.deleteCase",
+          "when": "viewItem =~ /toolboxes-activitybarView-casesView-treeItem-user/",
+          "group": "inline@3"
         }
       ],
       "editor/title": [
@@ -75,8 +80,8 @@
           "group": "navigation"
         },
         {
-          "command": "toolboxes.runTool",
-          "when": "resourceScheme == toolboxes-input",
+          "command": "toolboxes.runCase",
+          "when": "toolboxesToolFileSystemProviderRunableTool && resourceScheme == toolboxes-input",
           "group": "navigation"
         }
       ],
@@ -104,8 +109,8 @@
       ],
       "commandPalette": [
         {
-          "command": "toolboxes.runTool",
-          "when": "resourceScheme == toolboxes-input"
+          "command": "toolboxes.runCase",
+          "when": "toolboxesToolFileSystemProviderRunableTool && resourceScheme == toolboxes-input"
         },
         {
           "command": "toolboxes.showOutput",
@@ -138,12 +143,6 @@
       ]
     },
     "commands": [
-      {
-        "command": "toolboxes.runTool",
-        "title": "Run Tool",
-        "icon": "$(run)",
-        "category": "Toolboxes"
-      },
       {
         "command": "toolboxes.addToolbox",
         "title": "Add Toolbox",
@@ -180,23 +179,28 @@
         "category": "Toolboxes"
       },
       {
+        "command": "toolboxes.runCase",
+        "title": "Run Case",
+        "icon": "$(run)",
+        "category": "Toolboxes"
+      },
+      {
         "command": "_toolboxes.showTool",
-        "title": "Show Tool",
-        "when": "false"
+        "title": "Show Tool"
       },
       {
         "command": "_toolboxes.showCase",
         "title": "Show Case"
       },
       {
-        "command": "_toolboxes.deleteCase",
-        "title": "Delete Snippet",
-        "icon": "$(close)"
+        "command": "_toolboxes.renameCase",
+        "title": "Rename Case",
+        "icon": "$(edit)"
       },
       {
-        "command": "_toolboxes.renameCase",
-        "title": "Edit Snippet",
-        "icon": "$(edit)"
+        "command": "_toolboxes.deleteCase",
+        "title": "Delete Case",
+        "icon": "$(close)"
       }
     ]
   },

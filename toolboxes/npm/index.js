@@ -7,11 +7,7 @@ async function output({ input, options, tool, type }) {
     let result;
     switch (toolId) {
       case "set-registry":
-        if (type === "code") {
-          result = setRegistry.getCode(input);
-        } else {
-          result = setRegistry.getCode(input);
-        }
+        result = setRegistry(input);
         break;
       default:
         result = "";

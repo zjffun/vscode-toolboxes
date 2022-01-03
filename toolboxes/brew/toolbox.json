@@ -5,6 +5,7 @@
       "id": "set-registry",
       "label": "Set Registry",
       "tags": ["切换源", "registry"],
+      "run": "terminal",
       "cases": [
         {
           "label": "阿里",
@@ -23,7 +24,8 @@
     {
       "id": "show-registry",
       "label": "Show Registry",
-      "tags": ["查看源", "registry"]
+      "tags": ["查看源", "registry"],
+      "run": "terminal"
     }
   ]
 }

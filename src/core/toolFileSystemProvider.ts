@@ -7,6 +7,9 @@ import { parseQuery, stringifyQuery } from "../share";
 export default class ToolFileSystemProvider
   implements vscode.FileSystemProvider
 {
+  private static readonly runableToolContextKey =
+    "toolboxesToolFileSystemProviderRunableTool";
+
   async stat(uri: vscode.Uri): Promise<vscode.FileStat> {
     const toolCase = await casesService.getCase(uri);
     if (!toolCase) {
@@ -93,10 +96,18 @@ export default class ToolFileSystemProvider
 
     casesService.setCurrentCase(toolCase);
 
+    const tool = await toolboxesService.getTool(toolCase.uri);
+
+    await vscode.commands.executeCommand(
+      "setContext",
+      ToolFileSystemProvider.runableToolContextKey,
+      !!tool?.run
+    );
+
     refreshOptions();
     refreshCases();
 
-    await toolboxesService.runTool();
+    await casesService.execCurrentCase();
   }
 
   watch(uri: vscode.Uri): vscode.Disposable {

@@ -12,7 +12,6 @@ export default class CasesView implements vscode.TreeDataProvider<IToolCase> {
 
   public static viewId = "toolboxes-activitybarView-casesView";
   public static treeItemId = `${CasesView.viewId}-treeItem`;
-  public static builtInTreeItemId = `${CasesView.viewId}-builtInTreeItem`;
 
   protected toolboxesService = toolboxesService;
 
@@ -36,15 +35,17 @@ export default class CasesView implements vscode.TreeDataProvider<IToolCase> {
       arguments: [element],
     };
 
+    const contextValues: string[] = [CasesView.treeItemId];
+    if (element.type !== CaseType.BUILTIN) {
+      contextValues.push(`${CasesView.treeItemId}-user`);
+    }
+
     return {
       label: element.label,
       command: showCaseCommand,
       collapsibleState: undefined,
       resourceUri: element.uri,
-      contextValue:
-        element.type === CaseType.BUILTIN
-          ? CasesView.builtInTreeItemId
-          : CasesView.treeItemId,
+      contextValue: contextValues.join("|"),
     };
   }
 
@@ -52,15 +53,7 @@ export default class CasesView implements vscode.TreeDataProvider<IToolCase> {
     if (element) {
       return [];
     }
-    const toolCase = await casesService.getCurrentCase();
-    if (!toolCase) {
-      return [];
-    }
-    const tool = await toolboxesService.getTool(toolCase.uri);
-    if (!tool || !tool.uri) {
-      return [];
-    }
 
-    return casesService.getCases(tool.uri);
+    return casesService.getCurrentCases();
   }
 }

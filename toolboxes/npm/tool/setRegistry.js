@@ -1,11 +1,6 @@
-import { exec } from "child_process";
-
 function setRegistry(input) {
-  return exec(setRegistry.getCode({ input }));
+  const _input = input.trim();
+  return `npm config set registry ${_input}`;
 }
-
-setRegistry.getCode = (input) => {
-  return `npm config set registry ${input}`;
-};
 
 export default setRegistry;

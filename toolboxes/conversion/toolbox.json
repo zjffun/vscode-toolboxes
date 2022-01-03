@@ -4,7 +4,7 @@
     {
       "id": "convert-data",
       "label": "Convert JSON5 JSON YAML XML CSV TSV",
-      "autoRun": true,
+      
       "options": [
         {
           "name": "from",
@@ -77,7 +77,7 @@
     {
       "id": "convert-variable-name",
       "label": "Convert camelCase kebab-case PascalCase",
-      "autoRun": true,
+      
       "options": [
         {
           "name": "from",
@@ -126,7 +126,7 @@
     {
       "id": "convert-date",
       "label": "Convert Date",
-      "autoRun": true,
+      
       "options": [
         {
           "name": "type",

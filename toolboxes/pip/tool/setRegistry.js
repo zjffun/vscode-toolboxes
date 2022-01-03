@@ -1,10 +1,4 @@
-import { exec } from "child_process";
-
 function setRegistry(input) {
-  return exec(setRegistry.getCode({ input }));
-}
-
-setRegistry.getCode = (input) => {
   const cmd = process.platform === "win32" ? "py" : "python";
 
   const _input = input.trim();
@@ -15,6 +9,6 @@ setRegistry.getCode = (input) => {
   ];
 
   return commands.join("\n");
-};
+}
 
 export default setRegistry;

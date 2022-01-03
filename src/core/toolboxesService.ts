@@ -1,9 +1,11 @@
 import * as path from "path";
 import * as vscode from "vscode";
 import { ITool, IToolboxConfig } from "..";
+import { RunType } from "../enum";
 import { casesService } from "../extension";
 import {
   context,
+  runInTerminal,
   safeGetGlobalStorageUri,
   safeJSONparse,
   safeReadFileContent,
@@ -20,6 +22,7 @@ const builtinToolboxNames = [
   "pip",
   "crypto",
   "brew",
+  "network",
 ];
 
 type RecursiveConfig = {
@@ -265,35 +268,6 @@ export class ToolboxesService {
       label: res.label,
       url: _url,
     });
-
-    return true;
-  }
-
-  async runTool({ run }: { run?: boolean } = {}): Promise<boolean> {
-    const toolCase = await casesService.getCurrentCase();
-    if (!toolCase) {
-      return false;
-    }
-
-    const tool = await this.getTool(toolCase.uri);
-    if (tool) {
-      if (tool.autoRun || run) {
-        const optionValues = toolCase.optionValues;
-        try {
-          const importedTool = await this.importTool(tool);
-          const result = await importedTool.default({
-            input: toolCase.content,
-            options: optionValues,
-            tool,
-            require,
-          });
-
-          outputDoc && writeTextDocument(outputDoc, result, { save: false });
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
 
     return true;
   }

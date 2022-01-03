@@ -1,0 +1,31 @@
+{
+  "label": "Network",
+  "tools": [
+    {
+      "label": "ping",
+      "id": "ping",
+      "run": "new-terminal"
+    },
+    {
+      "label": "telnet",
+      "id": "telnet",
+      "run": "new-terminal",
+      "options": [
+        {
+          "name": "ip",
+          "label": "ip",
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "label": "port",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "label": "ifconfig",
+      "id": "ifconfig"
+    }
+  ]
+}

@@ -3,8 +3,7 @@
   "tools": [
     {
       "id": "hash",
-      "label": "hash",
-      "autoRun": true
+      "label": "hash"
     }
   ]
 }

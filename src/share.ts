@@ -66,3 +66,25 @@ export async function writeTextDocument(
     await textDocument.save();
   }
 }
+
+let sharedTerminal: vscode.Terminal;
+
+export async function runInTerminal(
+  text: string,
+  { newTerminal }: { newTerminal?: boolean } = {}
+) {
+  let terminal: vscode.Terminal;
+
+  if (newTerminal) {
+    terminal = vscode.window.createTerminal();
+  } else {
+    if (!sharedTerminal) {
+      sharedTerminal = vscode.window.createTerminal();
+    }
+
+    terminal = sharedTerminal;
+  }
+
+  terminal.show();
+  terminal.sendText(text, true);
+}

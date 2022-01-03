@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { CaseType } from "./enum";
+import { CaseType, RunType } from "./enum";
 
 export interface ITool {
   label: string;
@@ -7,6 +7,7 @@ export interface ITool {
   id?: string;
   // deafult index.js
   main?: string;
+  run?: RunType;
   autoRun?: boolean;
   optionCategories?: string[];
   options?: any[];
@@ -19,21 +20,12 @@ export interface ITool {
   // For downloading and locating tools.
   url?: string;
 }
-export interface IToolConfig {
-  label: string;
-  id?: string;
-  main?: string;
-  autoRun?: boolean;
-  optionCategories?: string[];
-  options?: any[];
-
-  url?: string;
-}
 
 export interface IToolCaseBase {
   content?: string;
   label?: string;
   optionValues?: any;
+  run?: string;
 }
 
 export interface IToolCase extends IToolCaseBase {

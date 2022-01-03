@@ -5,6 +5,7 @@
       "id": "set-registry",
       "label": "Set Registry",
       "tags": ["切换源", "registry"],
+      "run": "terminal",
       "cases": [
         {
           "label": "taobao",

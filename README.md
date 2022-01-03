@@ -14,6 +14,17 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.4
+
+- Added features add network tools.
+- Added features run commands in terminal.
+- Added features convert date tool.
+- Added features brew tool.
+- Added features hash tool.
+- Added features set pip registry tool.
+- Added features convert camelCase kebab-case PascalCase tool.
+- Fix bug of path sep.
+
 ### v0.0.3
 
 - Added features builtin cases.

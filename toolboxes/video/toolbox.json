@@ -1,0 +1,191 @@
+{
+  "label": "Video",
+  "tools": [
+    {
+      "id": "conversion",
+      "label": "Conversion",
+      "run": "terminal",
+      "options": [
+        {
+          "name": "video",
+          "label": "video",
+          "type": "file",
+          "description": ""
+        },
+        {
+          "name": "type",
+          "label": "type",
+          "type": "choice",
+          "default": "mp4",
+          "choices": [
+            {
+              "value": "mp4",
+              "description": ""
+            },
+            {
+              "value": "mov",
+              "description": ""
+            },
+            {
+              "value": "mkv",
+              "description": ""
+            },
+            {
+              "value": "m4v",
+              "description": ""
+            },
+            {
+              "value": "avi",
+              "description": ""
+            },
+            {
+              "value": "flv",
+              "description": ""
+            },
+            {
+              "value": "mts",
+              "description": ""
+            },
+            {
+              "value": "3gp",
+              "description": ""
+            },
+            {
+              "value": "gif",
+              "description": ""
+            },
+            {
+              "value": "webp",
+              "description": ""
+            },
+            {
+              "value": "webm",
+              "description": ""
+            }
+          ]
+        },
+
+        {
+          "name": "enableCut",
+          "label": "enableCut",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Cut"
+        },
+        {
+          "name": "start",
+          "label": "start",
+          "type": "string",
+          "description": "",
+          "default": "00:00:00.000",
+          "category": "Cut"
+        },
+        {
+          "name": "end",
+          "label": "end",
+          "type": "string",
+          "description": "",
+          "default": "00:00:00.000",
+          "category": "Cut"
+        },
+
+        {
+          "name": "enableCrop",
+          "label": "enableCrop",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "x1",
+          "label": "x1",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "y1",
+          "label": "y1",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "x2",
+          "label": "x2",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+        {
+          "name": "y2",
+          "label": "y2",
+          "type": "int",
+          "description": "",
+          "category": "Crop"
+        },
+
+        {
+          "name": "enableScale",
+          "label": "enableScale",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Scale"
+        },
+        {
+          "name": "width",
+          "label": "width",
+          "type": "int",
+          "description": "",
+          "default": 320,
+          "category": "Scale"
+        },
+        {
+          "name": "height",
+          "label": "height",
+          "type": "int",
+          "description": "",
+          "default": -1,
+          "category": "Scale"
+        },
+
+        {
+          "name": "enableFps",
+          "label": "enableFps",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Fps"
+        },
+        {
+          "name": "fps",
+          "label": "fps",
+          "type": "int",
+          "description": "",
+          "default": 12,
+          "category": "Fps"
+        },
+
+        {
+          "name": "enableLoop",
+          "label": "enableLoop",
+          "type": "boolean",
+          "default": false,
+          "description": "",
+          "category": "Loop"
+        },
+        {
+          "name": "loop",
+          "label": "loop",
+          "type": "int",
+          "description": "",
+          "default": 0,
+          "category": "Loop"
+        }
+      ]
+    }
+  ]
+}

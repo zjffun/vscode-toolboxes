@@ -18,6 +18,7 @@ const esmRequire = require("esm")(module);
 const builtinToolboxNames = [
   "web",
   "conversion",
+  "video",
   "npm",
   "pip",
   "crypto",

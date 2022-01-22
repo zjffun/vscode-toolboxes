@@ -1,6 +1,6 @@
 import setRegistry from "./tool/setRegistry";
 
-async function output({ input, options, tool, type }) {
+async function output({ input, options, tool }) {
   const toolId = tool.id;
 
   try {

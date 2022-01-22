@@ -2,6 +2,14 @@
   "label": "Web",
   "tools": [
     {
+      "label": "HTML to JSX",
+      "id": "html-to-jsx"
+    },
+    {
+      "label": "CSS to JS",
+      "id": "css-to-js"
+    },
+    {
       "label": "URL Encode",
       "id": "url-encode",
 

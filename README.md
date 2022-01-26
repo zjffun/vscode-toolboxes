@@ -14,6 +14,13 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.5
+
+- Added features add TS to JS tool.
+- Added features add video conversion tool.
+- Added features add CSS to JS tool.
+- Added features add HTML to JSX tool.
+
 ### v0.0.4
 
 - Added features add network tools.

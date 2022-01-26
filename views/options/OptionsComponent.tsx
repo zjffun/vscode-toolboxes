@@ -24,7 +24,9 @@ export function ChoiceOption({ option, value, onChange }) {
     <Select
       label={option.label}
       title={option.description}
-      values={option.choices.map((choice) => choice.value)}
+      values={option.choices.map((choice) =>
+        typeof choice === "string" ? choice : choice.value
+      )}
       selected={defaultTo(value, "")}
       onChange={(val) => onChange(option, val)}
     />

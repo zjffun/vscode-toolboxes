@@ -1,5 +1,6 @@
 import cssToJs from "./tool/cssToJs";
 import htmlToJsx from "./tool/htmlToJsx";
+import tsToJs from "./tool/tsToJs";
 
 function output({ input, options, tool }) {
   const { encode, decode } = require("html-entities");
@@ -95,6 +96,9 @@ function output({ input, options, tool }) {
         break;
       case "html-to-jsx":
         result = htmlToJsx(input);
+        break;
+      case "ts-to-js":
+        result = tsToJs({ input, options });
         break;
       default:
         result = "";

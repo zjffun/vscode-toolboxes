@@ -10,6 +10,71 @@
       "id": "css-to-js"
     },
     {
+      "label": "TS to JS",
+      "id": "ts-to-js",
+      "options": [
+        {
+          "label": "Target",
+          "name": "target",
+          "description": "Set the JavaScript language version for emitted JavaScript and include compatible library declarations.",
+          "type": "choice",
+          "default": "ESNext",
+          "choices": [
+            "ES3",
+            "ES5",
+            "ES2015",
+            "ES2016",
+            "ES2017",
+            "ES2018",
+            "ES2019",
+            "ES2020",
+            "ES2021",
+            "ESNext",
+            "JSON",
+            "Latest"
+          ]
+        },
+        {
+          "label": "JSX",
+          "name": "jsx",
+          "description": "Specify what JSX code is generated.",
+          "type": "choice",
+          "default": "React",
+          "choices": [
+            "None",
+            "Preserve",
+            "React",
+            "ReactNative",
+            "ReactJSX",
+            "ReactJSXDev"
+          ]
+        },
+        {
+          "label": "Module",
+          "name": "module",
+          "description": "Specify what module code is generated.",
+          "type": "choice",
+          "default": "ESNext",
+          "choices": [
+            "None",
+            "CommonJS",
+            "AMD",
+            "System",
+            "UMD",
+            "ES6",
+            "ES2015",
+            "ES2020",
+            "es2022",
+            "ESNext",
+            "Node12",
+            "NodeNext"
+          ],
+          "markdownDescription": "Specify what module code is generated.\n\nSee more: https://www.typescriptlang.org/tsconfig#module"
+        }
+      ]
+    },
+
+    {
       "label": "URL Encode",
       "id": "url-encode",
 

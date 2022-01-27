@@ -1,6 +1,9 @@
 import * as vscode from "vscode";
 import { ITool } from "..";
 import { showInputDoc } from "../core/input";
+import { casesService } from "../extension";
+import { showCaseCommandId } from "./showCase";
+import { showOutputCommandId } from "./showOutput";
 
 const showTool = async (
   tool: ITool
@@ -10,7 +13,15 @@ const showTool = async (
       return undefined;
     }
 
-    await vscode.commands.executeCommand("toolboxes.showOutput");
+    const builtinToolCase = (await casesService.getBuiltinCases(tool.uri))?.[0];
+    if (builtinToolCase) {
+      return await vscode.commands.executeCommand(
+        showCaseCommandId,
+        builtinToolCase
+      );
+    }
+
+    await vscode.commands.executeCommand(showOutputCommandId);
 
     const uri = tool.uri;
 

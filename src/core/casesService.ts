@@ -308,7 +308,12 @@ export class CasesService {
     }
 
     return tool.cases.map((caseObj) => {
-      return { ...caseObj, uri: tool.uri, type: CaseType.BUILTIN };
+      return {
+        ...caseObj,
+        content: this._getContent(caseObj.content),
+        uri: tool.uri,
+        type: CaseType.BUILTIN,
+      };
     });
   }
 
@@ -345,5 +350,17 @@ export class CasesService {
     const diskCases = await this.getDiskCases(uri);
 
     return [...builtinCases, ...diskCases];
+  }
+
+  private _getContent(rawContent: string | string[]) {
+    if (typeof rawContent === "string") {
+      return rawContent;
+    }
+
+    if (Array.isArray(rawContent)) {
+      return rawContent.join("\n");
+    }
+
+    return "";
   }
 }

@@ -4,6 +4,43 @@
     {
       "id": "hash",
       "label": "hash"
+    },
+    {
+      "id": "cipher",
+      "label": "cipher"
+    },
+    {
+      "id": "decipher",
+      "label": "decipher",
+      "options": [
+        {
+          "name": "algorithm",
+          "label": "algorithm",
+          "type": "choice",
+          "default": "AES-128-CBC",
+          "choices": [
+            "AES-128-CBC",
+            "AES-128-CFB",
+            "AES-128-CTR",
+            "AES-128-ECB",
+            "AES-128-OFB",
+            "DES-CBC",
+            "DES-ECB"
+          ]
+        },
+        {
+          "name": "key",
+          "label": "key",
+          "type": "string",
+          "description": ""
+        },
+        {
+          "name": "iv",
+          "label": "iv",
+          "type": "string",
+          "description": ""
+        }
+      ]
     }
   ]
 }

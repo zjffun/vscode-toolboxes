@@ -8,7 +8,6 @@ export interface ITool {
   // deafult index.js
   main?: string;
   run?: RunType;
-  autoRun?: boolean;
   optionCategories?: string[];
   options?: any[];
   children?: ITool[];

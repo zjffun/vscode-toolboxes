@@ -205,7 +205,9 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile",
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean",
+    "vscode:prepublish": "lerna bootstrap && yarn run compile",
     "compile": "yarn run options-view:build && tsc -p ./",
     "// use `--raw` to match $tsc-watch problemMatcher": "",
     "watch": "concurrently --raw \"yarn run options-view:watch\" \"tsc -watch -p ./\"",
@@ -239,6 +241,7 @@
     "eslint": "^7.27.0",
     "glob": "^7.1.7",
     "html-webpack-plugin": "^5.3.2",
+    "lerna": "^4.0.0",
     "mini-css-extract-plugin": "^2.2.1",
     "mocha": "^8.4.0",
     "node-sass": "^6.0.1",
@@ -257,23 +260,15 @@
     "@js-temporal/polyfill": "^0.3.0",
     "@vscode/codicons": "^0.0.21",
     "@vscode/webview-ui-toolkit": "^0.8.2",
-    "d3-dsv": "^3.0.1",
     "esm": "^3.2.25",
     "fs-extra": "^10.0.0",
-    "html-entities": "^2.3.2",
-    "htmltojsx": "^0.3.0",
     "json5": "^2.2.0",
     "lodash": "^4.17.21",
-    "postcss": "^8.4.5",
-    "postcss-js": "^4.0.0",
-    "prettier": "^2.4.1",
     "qs": "^6.10.1",
     "split-split": "^0.0.1",
     "typescript": "^4.5.5",
     "vscode-ext-codicons": "^1.4.0",
-    "vscode-ext-help-and-feedback-view": "^1.0.1",
-    "xml-js": "^1.6.11",
-    "yaml": "^1.10.2"
+    "vscode-ext-help-and-feedback-view": "^1.0.1"
   },
   "icon": "images/toolboxes.png"
 }

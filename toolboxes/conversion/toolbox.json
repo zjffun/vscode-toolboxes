@@ -4,7 +4,6 @@
     {
       "id": "convert-data",
       "label": "Convert JSON5 JSON YAML XML CSV TSV",
-      
       "options": [
         {
           "name": "from",
@@ -72,12 +71,225 @@
             }
           ]
         }
+      ],
+      "cases": [
+        {
+          "label": "JSON5 To JSON",
+          "content": [
+            "{",
+            "  unquoted: 'and you can quote me on that',",
+            "  singleQuotes: 'I can use \"double quotes\" here',",
+            "  lineBreaks: \"Look, Mom! \\",
+            "No \\\\n's!\",",
+            "  hexadecimal: 0xdecaf,",
+            "  leadingDecimalPoint: .8675309, andTrailing: 8675309.,",
+            "  positiveSign: +1,",
+            "  trailingComma: 'in objects', andIn: ['arrays',],",
+            "  \"backwardsCompatible\": \"with JSON\",",
+            "}"
+          ],
+          "optionValues": {
+            "from": "JSON5",
+            "to": "JSON"
+          }
+        },
+        {
+          "label": "JSON5 To YAML",
+          "content": [
+            "{",
+            "  unquoted: 'and you can quote me on that',",
+            "  singleQuotes: 'I can use \"double quotes\" here',",
+            "  lineBreaks: \"Look, Mom! \\",
+            "No \\\\n's!\",",
+            "  hexadecimal: 0xdecaf,",
+            "  leadingDecimalPoint: .8675309, andTrailing: 8675309.,",
+            "  positiveSign: +1,",
+            "  trailingComma: 'in objects', andIn: ['arrays',],",
+            "  \"backwardsCompatible\": \"with JSON\",",
+            "}"
+          ],
+          "optionValues": {
+            "from": "JSON5",
+            "to": "YAML"
+          }
+        },
+        {
+          "label": "JSON5 To XML",
+          "content": [
+            "{",
+            "  unquoted: 'and you can quote me on that',",
+            "  singleQuotes: 'I can use \"double quotes\" here',",
+            "  lineBreaks: \"Look, Mom! \\",
+            "No \\\\n's!\",",
+            "  hexadecimal: 0xdecaf,",
+            "  leadingDecimalPoint: .8675309, andTrailing: 8675309.,",
+            "  positiveSign: +1,",
+            "  trailingComma: 'in objects', andIn: ['arrays',],",
+            "  \"backwardsCompatible\": \"with JSON\",",
+            "}"
+          ],
+          "optionValues": {
+            "from": "JSON5",
+            "to": "XML"
+          }
+        },
+        {
+          "label": "JSON5 To CSV",
+          "content": [
+            "[",
+            "  {",
+            "    \"Year\": \"1997\",",
+            "    \"Make\": \"Ford\",",
+            "    \"Model\": \"E350\",",
+            "    \"Description\": \"ac, abs, moon\",",
+            "    \"Price\": \"3000.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1999\",",
+            "    \"Make\": \"Chevy\",",
+            "    \"Model\": \"Venture \\\"Extended Edition\\\"\",",
+            "    \"Description\": \"\",",
+            "    \"Price\": \"4900.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1999\",",
+            "    \"Make\": \"Chevy\",",
+            "    \"Model\": \"Venture \\\"Extended Edition, Very Large\\\"\",",
+            "    \"Description\": \"\",",
+            "    \"Price\": \"5000.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1996\",",
+            "    \"Make\": \"Jeep\",",
+            "    \"Model\": \"Grand Cherokee\",",
+            "    \"Description\": \"MUST SELL!\\nair, moon roof, loaded\",",
+            "    \"Price\": \"4799.00\"",
+            "  }",
+            "]"
+          ],
+          "optionValues": {
+            "from": "JSON5",
+            "to": "CSV"
+          }
+        },
+        {
+          "label": "JSON5 To TSV",
+          "content": [
+            "[",
+            "  {",
+            "    \"Year\": \"1997\",",
+            "    \"Make\": \"Ford\",",
+            "    \"Model\": \"E350\",",
+            "    \"Description\": \"ac, abs, moon\",",
+            "    \"Price\": \"3000.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1999\",",
+            "    \"Make\": \"Chevy\",",
+            "    \"Model\": \"Venture \\\"Extended Edition\\\"\",",
+            "    \"Description\": \"\",",
+            "    \"Price\": \"4900.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1999\",",
+            "    \"Make\": \"Chevy\",",
+            "    \"Model\": \"Venture \\\"Extended Edition, Very Large\\\"\",",
+            "    \"Description\": \"\",",
+            "    \"Price\": \"5000.00\"",
+            "  },",
+            "  {",
+            "    \"Year\": \"1996\",",
+            "    \"Make\": \"Jeep\",",
+            "    \"Model\": \"Grand Cherokee\",",
+            "    \"Description\": \"MUST SELL!\\nair, moon roof, loaded\",",
+            "    \"Price\": \"4799.00\"",
+            "  }",
+            "]"
+          ],
+          "optionValues": {
+            "from": "JSON5",
+            "to": "TSV"
+          }
+        },
+        {
+          "label": "YAML To JSON",
+          "content": [
+            "%YAML 1.2",
+            "---",
+            "YAML: YAML Ain't Markup Language™",
+            "",
+            "What It Is:",
+            "  YAML is a human-friendly data serialization",
+            "  language for all programming languages.",
+            "",
+            "YAML Resources:",
+            "  YAML Specifications:",
+            "  - YAML 1.2:",
+            "    - Revision 1.2.2      # Oct 1, 2021 *New*",
+            "    - Revision 1.2.1      # Oct 1, 2009",
+            "    - Revision 1.2.0      # Jul 21, 2009",
+            "  - YAML 1.1",
+            "  - YAML 1.0",
+            "",
+            "  YAML Matrix Chat:  '#chat:yaml.io'     # Our New Group Chat Room!",
+            "  YAML IRC Channel:  libera.chat#yaml    # The old chat"
+          ],
+          "optionValues": {
+            "from": "YAML",
+            "to": "JSON"
+          }
+        },
+        {
+          "label": "XML To JSON",
+          "content": [
+            "<note>",
+            "  <date>2015-09-01</date>",
+            "  <hour>08:30</hour>",
+            "  <to>Tove</to>",
+            "  <from>Jani</from>",
+            "  <body>Don't forget me this weekend!</body>",
+            "</note>"
+          ],
+          "optionValues": {
+            "from": "XML",
+            "to": "JSON"
+          }
+        },
+        {
+          "label": "CSV To JSON",
+          "content": [
+            "Year,Make,Model,Description,Price",
+            "1997,Ford,E350,\"ac, abs, moon\",3000.00",
+            "1999,Chevy,\"Venture \"\"Extended Edition\"\"\",\"\",4900.00",
+            "1999,Chevy,\"Venture \"\"Extended Edition, Very Large\"\"\",,5000.00",
+            "1996,Jeep,Grand Cherokee,\"MUST SELL!",
+            "air, moon roof, loaded\",4799.00"
+          ],
+          "optionValues": {
+            "from": "CSV",
+            "to": "JSON"
+          }
+        },
+        {
+          "label": "TSV To JSON",
+          "content": [
+            "Sepal length\tSepal width\tPetal length\tPetal width\tSpecies",
+            "5.1\t3.5\t1.4\t0.2\tI. setosa",
+            "4.9\t3.0\t1.4\t0.2\tI. setosa",
+            "4.7\t3.2\t1.3\t0.2\tI. setosa",
+            "4.6\t3.1\t1.5\t0.2\tI. setosa",
+            "5.0\t3.6\t1.4\t0.2\tI. setosa"
+          ],
+          "optionValues": {
+            "from": "TSV",
+            "to": "JSON"
+          }
+        }
       ]
     },
     {
       "id": "convert-variable-name",
       "label": "Convert camelCase kebab-case PascalCase",
-      
       "options": [
         {
           "name": "from",
@@ -121,12 +333,29 @@
             }
           ]
         }
+      ],
+      "cases": [
+        {
+          "label": "camelCase to kebab-case",
+          "content": "camelCase camelCase2",
+          "optionValues": {
+            "from": "camelCase",
+            "to": "kebab-case"
+          }
+        },
+        {
+          "label": "kebab-case to camelCase",
+          "content": "kebab-case kebab-case2",
+          "optionValues": {
+            "from": "kebab-case",
+            "to": "camelCase"
+          }
+        }
       ]
     },
     {
       "id": "convert-date",
       "label": "Convert Date",
-      
       "options": [
         {
           "name": "type",
@@ -163,6 +392,16 @@
           "type": "string",
           "description": "",
           "default": "UTC"
+        }
+      ],
+      "cases": [
+        {
+          "label": "EpochSeconds",
+          "content": "1643900828",
+          "optionValues": {
+            "type": "EpochSeconds",
+            "timeZone": "UTC"
+          }
         }
       ]
     }

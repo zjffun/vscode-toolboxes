@@ -36,7 +36,7 @@ const XML = {
 const convert = { JSON5, JSON, YAML, XML, CSV, TSV };
 
 export default async (input, options) => {
-  const from = await convert[options.from];
-  const to = await convert[options.to];
-  return to.stringify(from.parse(input));
+  const from = convert[options.from];
+  const to = convert[options.to];
+  return await to.stringify(await from.parse(input));
 };

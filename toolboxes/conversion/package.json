@@ -3,6 +3,7 @@
   "name": "toolbox-conversion",
   "dependencies": {
     "d3-dsv": "^3.0.1",
+    "json5": "^2.2.0",
     "xml-js": "^1.6.11",
     "yaml": "^1.10.2"
   }

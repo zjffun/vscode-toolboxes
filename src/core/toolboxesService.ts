@@ -1,18 +1,12 @@
-import * as path from "path";
 import * as vscode from "vscode";
 import { ITool, IToolboxConfig } from "..";
-import { RunType } from "../enum";
-import { casesService } from "../extension";
 import {
   context,
-  runInTerminal,
   safeGetGlobalStorageUri,
   safeJSONparse,
   safeReadFileContent,
-  writeTextDocument,
 } from "../share";
 import { inputScheme } from "./input";
-import { outputDoc } from "./output";
 const esmRequire = require("esm")(module);
 
 const builtinToolboxNames = [

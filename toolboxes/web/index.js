@@ -25,16 +25,16 @@ function output({ input, options, tool }) {
     const urlObj = new URL(_url);
 
     return `protocol: ${urlObj.protocol}
-  username: ${urlObj.username}
-  password: ${urlObj.password}
-  port: ${urlObj.port}
-  hostname: ${urlObj.hostname}
-  host: ${urlObj.host}
-  origin: ${urlObj.origin}
-  pathname: ${urlObj.pathname}
-  search: ${urlObj.search}
-  hash: ${urlObj.hash}
-  href: ${urlObj.href}`;
+username: ${urlObj.username}
+password: ${urlObj.password}
+port: ${urlObj.port}
+hostname: ${urlObj.hostname}
+host: ${urlObj.host}
+origin: ${urlObj.origin}
+pathname: ${urlObj.pathname}
+search: ${urlObj.search}
+hash: ${urlObj.hash}
+href: ${urlObj.href}`;
   };
 
   const btoa = function (str) {

@@ -178,7 +178,6 @@
     {
       "label": "URL Encode",
       "id": "url-encode",
-
       "options": [
         {
           "name": "type",
@@ -197,12 +196,27 @@
             }
           ]
         }
+      ],
+      "cases": [
+        {
+          "label": "URI Component",
+          "content": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent",
+          "optionValues": {
+            "type": "encodeURIComponent"
+          }
+        },
+        {
+          "label": "URI",
+          "content": "https://mozilla.org/?x=测试",
+          "optionValues": {
+            "type": "encodeURI"
+          }
+        }
       ]
     },
     {
       "label": "URL Decode",
       "id": "url-decode",
-
       "options": [
         {
           "name": "type",
@@ -221,32 +235,77 @@
             }
           ]
         }
+      ],
+      "cases": [
+        {
+          "label": "URI Component",
+          "content": "https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FJavaScript%2FReference%2FGlobal_Objects%2FencodeURIComponent",
+          "optionValues": {
+            "type": "decodeURIComponent"
+          }
+        },
+        {
+          "label": "URI",
+          "content": "https://mozilla.org/?x=%E6%B5%8B%E8%AF%95",
+          "optionValues": {
+            "type": "decodeURI"
+          }
+        }
       ]
     },
     {
       "label": "URL Parse",
-      "id": "url-parse"
+      "id": "url-parse",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "https://developer.mozilla.org/en-US/docs/Web/API/URL?x=test-qs#test-hash"
+        }
+      ]
     },
     {
       "label": "HTML Encode",
-      "id": "html-encode"
+      "id": "html-encode",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "<script>console.log('hello world!')</script>"
+        }
+      ]
     },
     {
       "label": "HTML Decode",
-      "id": "html-decode"
+      "id": "html-decode",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "&lt;script&gt;console.log(&apos;hello world!&apos;)&lt;/script&gt;"
+        }
+      ]
     },
     {
       "label": "Base64 Encode",
-      "id": "base64-encode"
+      "id": "base64-encode",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "hello world"
+        }
+      ]
     },
     {
       "label": "Base64 Decode",
-      "id": "base64-decode"
+      "id": "base64-decode",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "aGVsbG8gd29ybGQ="
+        }
+      ]
     },
     {
       "label": "Prettier",
       "id": "prettier",
-
       "options": [
         {
           "label": "parser",
@@ -656,6 +715,168 @@
         "Markdown",
         "HTML",
         "Special"
+      ],
+      "cases": [
+        {
+          "label": "JSX",
+          "content": [
+            "function HelloWorld({greeting = \"hello\", greeted = '\"World\"', silent = false, onMouseOver,}) {",
+            "",
+            "  if(!greeting){return null};",
+            "",
+            "     // TODO: Don't use random in render",
+            "  let num = Math.floor (Math.random() * 1E+7).toString().replace(/\\.\\d+/ig, \"\")",
+            "",
+            "  return <div className='HelloWorld' title={`You are visitor number ${ num }`} onMouseOver={onMouseOver}>",
+            "",
+            "    <strong>{ greeting.slice( 0, 1 ).toUpperCase() + greeting.slice(1).toLowerCase() }</strong>",
+            "    {greeting.endsWith(\",\") ? \" \" : <span style={{color: '\\grey'}}>\", \"</span> }",
+            "    <em>",
+            "\t{ greeted }",
+            "\t</em>",
+            "    { (silent)",
+            "      ? \".\"",
+            "      : \"!\"}",
+            "",
+            "    </div>;",
+            "",
+            "}"
+          ],
+          "optionValues": {
+            "parser": "babel",
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "jsxSingleQuote": false,
+            "quoteProps": "as-needed",
+            "arrowParens": "always",
+            "trailingComma": "es5",
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "requirePragma": false,
+            "vueIndentScriptAndStyle": false,
+            "embeddedLanguageFormatting": "auto",
+            "bracketSameLine": false
+          }
+        },
+        {
+          "label": "SCSS",
+          "content": ".info{background:violet;border:1px solid grey;}",
+          "optionValues": {
+            "parser": "scss",
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "jsxSingleQuote": false,
+            "quoteProps": "as-needed",
+            "arrowParens": "always",
+            "trailingComma": "es5",
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "requirePragma": false,
+            "vueIndentScriptAndStyle": false,
+            "embeddedLanguageFormatting": "auto",
+            "bracketSameLine": false
+          }
+        },
+        {
+          "label": "HTML",
+          "content": [
+            "<div><a href=\"https://prettier.io/playground\">hello</a> <span>world!</span></div>"
+          ],
+          "optionValues": {
+            "parser": "html",
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "jsxSingleQuote": false,
+            "quoteProps": "as-needed",
+            "arrowParens": "always",
+            "trailingComma": "es5",
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "requirePragma": false,
+            "vueIndentScriptAndStyle": false,
+            "embeddedLanguageFormatting": "auto",
+            "bracketSameLine": false
+          }
+        },
+        {
+          "label": "mdx",
+          "content": [
+            "# header",
+            "- list item",
+            "",
+            "content",
+            "",
+            "  - list item"
+          ],
+          "optionValues": {
+            "parser": "mdx",
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "jsxSingleQuote": false,
+            "quoteProps": "as-needed",
+            "arrowParens": "always",
+            "trailingComma": "es5",
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "requirePragma": false,
+            "vueIndentScriptAndStyle": false,
+            "embeddedLanguageFormatting": "auto",
+            "bracketSameLine": false
+          }
+        },
+        {
+          "label": "vue",
+          "content": [
+            "<template>",
+            "<div id=\"app-2\">",
+            "<span v-bind:title=\"message\">",
+            "Hover your mouse over me for a few seconds",
+            "to see my dynamically bound title!",
+            "</span>",
+            "</div>",
+            "</template>"
+          ],
+          "optionValues": {
+            "parser": "vue",
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "jsxSingleQuote": false,
+            "quoteProps": "as-needed",
+            "arrowParens": "always",
+            "trailingComma": "es5",
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "requirePragma": false,
+            "vueIndentScriptAndStyle": false,
+            "embeddedLanguageFormatting": "auto",
+            "bracketSameLine": false
+          }
+        }
       ]
     }
   ]

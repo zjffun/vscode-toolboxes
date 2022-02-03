@@ -11,5 +11,21 @@
     "out-view": true
   },
   // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-  "typescript.tsc.autoDetect": "off"
+  "typescript.tsc.autoDetect": "off",
+  "ego.power-tools": {
+    "commands": {
+      "lines-to-json": {
+        "script": "./power-tools/lines-to-json.js",
+        "button": {
+          "text": "lines to json"
+        }
+      },
+      "get-default-values": {
+        "script": "./power-tools/get-default-values.js",
+        "button": {
+          "text": "get default values"
+        }
+      }
+    }
+  }
 }

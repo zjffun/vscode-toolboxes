@@ -3,11 +3,23 @@
   "tools": [
     {
       "id": "hash",
-      "label": "hash"
+      "label": "hash",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "hello world!"
+        }
+      ]
     },
     {
       "id": "cipher",
-      "label": "cipher"
+      "label": "cipher",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "hello world!"
+        }
+      ]
     },
     {
       "id": "decipher",
@@ -39,6 +51,17 @@
           "label": "iv",
           "type": "string",
           "description": ""
+        }
+      ],
+      "cases": [
+        {
+          "label": "case 1",
+          "content": "a37abd78b662df826032c57e06803129",
+          "optionValues": {
+            "algorithm": "AES-128-CBC",
+            "key": "40d38667b2a83d5ac7f9d6ebd4b88537",
+            "iv": "c8fd92ca39ce6ffc2bec33b8e39a95da"
+          }
         }
       ]
     }

@@ -13,6 +13,7 @@ const builtinToolboxNames = [
   "web",
   "conversion",
   "video",
+  "image",
   "npm",
   "pip",
   "crypto",

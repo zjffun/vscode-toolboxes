@@ -1,0 +1,37 @@
+{
+  "label": "Image",
+  "tools": [
+    {
+      "id": "conversion",
+      "label": "Conversion",
+      "run": "terminal",
+      "options": [
+        {
+          "name": "image",
+          "label": "image",
+          "type": "file",
+          "description": ""
+        },
+        {
+          "name": "type",
+          "label": "type",
+          "type": "choice",
+          "default": "webp",
+          "choices": [
+            {
+              "value": "webp",
+              "description": ""
+            }
+          ]
+        },
+
+        {
+          "name": "quality",
+          "label": "quality",
+          "type": "int",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

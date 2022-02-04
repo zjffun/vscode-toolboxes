@@ -2,6 +2,16 @@
 
 Easy to use and create various tools.
 
+![tools](images/tools.webp)
+
+## Builtin Toolboxes
+
+![builtin toolboxes](images/builtin-toolboxes.webp)
+
+## Create Cases
+
+![create cases](images/create-cases.webp)
+
 ## Install via CLI
 
 ```bash

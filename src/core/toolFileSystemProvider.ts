@@ -104,8 +104,8 @@ export default class ToolFileSystemProvider
       !!tool?.run
     );
 
-    refreshOptions();
-    refreshCases();
+    await refreshOptions();
+    await refreshCases();
 
     await casesService.execCurrentCase();
   }

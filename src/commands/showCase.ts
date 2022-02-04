@@ -5,6 +5,7 @@ import { showInputDoc } from "../core/input";
 import { CaseType } from "../enum";
 import { casesService } from "../extension";
 import { writeTextDocument } from "../share";
+import refreshOptions from "./refreshOptions";
 
 const showCase = async (
   toolCase: IToolCase
@@ -23,6 +24,8 @@ const showCase = async (
     await writeTextDocument(editor.document, toolCase.content || "", {
       save: false,
     });
+
+    await refreshOptions();
 
     return editor;
   } catch (error) {

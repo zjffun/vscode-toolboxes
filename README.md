@@ -24,6 +24,14 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.6
+
+- Added features add image, cipher and decipher tool.
+- Added features add crypto, conversion and web cases.
+- Added features multi-line json content.
+- Fix bug show input editor first.
+- Fix bug node modules version bug of vsce pack.
+
 ### v0.0.5
 
 - Added features add TS to JS tool.

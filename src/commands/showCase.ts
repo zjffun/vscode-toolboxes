@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { showOutput } from ".";
 import { IToolCase } from "..";
 import { showInputDoc } from "../core/input";
 import { CaseType } from "../enum";
@@ -9,13 +10,15 @@ const showCase = async (
   toolCase: IToolCase
 ): Promise<vscode.TextEditor | undefined> => {
   try {
-    await vscode.commands.executeCommand("toolboxes.showOutput");
-
     if (toolCase.type === CaseType.BUILTIN) {
       casesService.upsertMemoryCase(toolCase);
     }
 
     const editor = await showInputDoc(toolCase.uri);
+
+    await vscode.commands.executeCommand(showOutput.showOutputCommandId);
+
+    await showInputDoc(toolCase.uri);
 
     await writeTextDocument(editor.document, toolCase.content || "", {
       save: false,

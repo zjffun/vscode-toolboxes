@@ -21,11 +21,11 @@ const showTool = async (
       );
     }
 
-    await vscode.commands.executeCommand(showOutputCommandId);
-
     const uri = tool.uri;
 
-    return await showInputDoc(uri);
+    await showInputDoc(uri);
+
+    return await vscode.commands.executeCommand(showOutputCommandId);
   } catch (error) {
     console.error(error);
   }

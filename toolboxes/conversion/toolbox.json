@@ -35,6 +35,10 @@
             {
               "value": "TSV",
               "description": ""
+            },
+            {
+              "value": "JSONString",
+              "description": ""
             }
           ]
         },
@@ -67,6 +71,10 @@
             },
             {
               "value": "TSV",
+              "description": ""
+            },
+            {
+              "value": "JSONString",
               "description": ""
             }
           ]
@@ -282,6 +290,14 @@
           ],
           "optionValues": {
             "from": "TSV",
+            "to": "JSON"
+          }
+        },
+        {
+          "label": "JSONString To JSON",
+          "content": "\"{\\\"foo\\\":\\\"foo\\\",\\\"bar\\\":1}\"",
+          "optionValues": {
+            "from": "JSONString",
             "to": "JSON"
           }
         }

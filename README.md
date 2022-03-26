@@ -24,6 +24,12 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.7
+
+- Added features convert data support JSONString.
+
+- Publish to Open VSX Registry.
+
 ### v0.0.6
 
 - Added features add image, cipher and decipher tool.

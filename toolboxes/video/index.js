@@ -15,14 +15,14 @@ function output({ input, options, tool }) {
         const basename = path.basename(options.video, extname);
         const outputExtname = `.${options.type}`;
         const outputOption = [
-          path.join(
+          `'${path.join(
             options.video,
             "../",
             `${basename}-${Date.now()}${outputExtname}`
-          ),
+          )}'`,
         ];
 
-        const inputOption = ["-i", options.video];
+        const inputOption = ["-i", `'${options.video}'`];
         let cutOptions1 = [];
         let cutOptions2 = [];
         let filterOption = [];

@@ -15,14 +15,14 @@ function output({ input, options, tool }) {
         const basename = path.basename(options.image, extname);
         const outputExtname = `.${options.type}`;
         const outputOption = [
-          path.join(
+          `'${path.join(
             options.image,
             "../",
             `${basename}-${Date.now()}${outputExtname}`
-          ),
+          )}'`,
         ];
 
-        const inputOption = [options.image];
+        const inputOption = [`'${options.image}'`];
 
         if (options.quality) {
           inputOption.push("--quality", options.quality);

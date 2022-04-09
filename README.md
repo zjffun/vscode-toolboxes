@@ -24,6 +24,10 @@ code --install-extension zjffun.toolboxes
 
 ### [Unreleased]
 
+### v0.0.8
+
+- Fix bug broken path.
+
 ### v0.0.7
 
 - Added features convert data support JSONString.

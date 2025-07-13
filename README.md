@@ -20,9 +20,9 @@ code --install-extension zjffun.toolboxes
 
 ## Release Notes
 
-### [TODO]
+### v0.0.9
 
-### [Unreleased]
+- Fix crash caused by the use of esm.
 
 ### v0.0.8
 

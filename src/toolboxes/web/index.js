@@ -1,6 +1,6 @@
-import cssToJs from "./tool/cssToJs";
-import htmlToJsx from "./tool/htmlToJsx";
-import tsToJs from "./tool/tsToJs";
+import cssToJs from "./tool/cssToJs.js";
+import htmlToJsx from "./tool/htmlToJsx.js";
+import tsToJs from "./tool/tsToJs.js";
 
 function output({ input, options, tool }) {
   const { encode, decode } = require("html-entities");

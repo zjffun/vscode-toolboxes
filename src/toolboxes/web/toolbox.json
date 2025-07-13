@@ -2,63 +2,6 @@
   "label": "Web",
   "tools": [
     {
-      "label": "HTML to JSX",
-      "id": "html-to-jsx",
-      "cases": [
-        {
-          "label": "case 1",
-          "content": [
-            "<!DOCTYPE html>",
-            "<html lang=\"en\">",
-            "  <head>",
-            "    <meta charset=\"UTF-8\" />",
-            "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />",
-            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
-            "    <title>Document</title>",
-            "  </head>",
-            "  <body>",
-            "    <div class=\"inputWrapper\">",
-            "      <input id=\"input\" class=\"inputWrapper\" autocomplete=\"off\" spellcheck=\"false\" />",
-            "    </div>",
-            "    <script>",
-            "      console.log(document.getElementById(\"input\"));",
-            "    </script>",
-            "  </body>",
-            "</html>"
-          ]
-        }
-      ]
-    },
-    {
-      "label": "CSS to JS",
-      "id": "css-to-js",
-      "cases": [
-        {
-          "label": "case 1",
-          "content": [
-            "a:hover {",
-            "  color: violet;",
-            "}",
-            ".box {",
-            "  background: linear-gradient(",
-            "        105deg,",
-            "        rgba(255, 255, 255, 0.2) 39%,",
-            "        rgba(51, 56, 57, 1) 96%",
-            "      )",
-            "      center center / 400px 200px no-repeat,",
-            "    url(big-star.png) center no-repeat, rebeccapurple;",
-            "}",
-            ".container {",
-            "  display: grid;",
-            "  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));",
-            "  grid-auto-rows: minmax(100px, auto);",
-            "  gap: 20px;",
-            "}"
-          ]
-        }
-      ]
-    },
-    {
       "label": "TS to JS",
       "id": "ts-to-js",
       "options": [
@@ -876,6 +819,65 @@
             "embeddedLanguageFormatting": "auto",
             "bracketSameLine": false
           }
+        }
+      ]
+    }
+  ],
+  "// tools": [
+    {
+      "label": "HTML to JSX",
+      "id": "html-to-jsx",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": [
+            "<!DOCTYPE html>",
+            "<html lang=\"en\">",
+            "  <head>",
+            "    <meta charset=\"UTF-8\" />",
+            "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />",
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+            "    <title>Document</title>",
+            "  </head>",
+            "  <body>",
+            "    <div class=\"inputWrapper\">",
+            "      <input id=\"input\" class=\"inputWrapper\" autocomplete=\"off\" spellcheck=\"false\" />",
+            "    </div>",
+            "    <script>",
+            "      console.log(document.getElementById(\"input\"));",
+            "    </script>",
+            "  </body>",
+            "</html>"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "CSS to JS",
+      "id": "css-to-js",
+      "cases": [
+        {
+          "label": "case 1",
+          "content": [
+            "a:hover {",
+            "  color: violet;",
+            "}",
+            ".box {",
+            "  background: linear-gradient(",
+            "        105deg,",
+            "        rgba(255, 255, 255, 0.2) 39%,",
+            "        rgba(51, 56, 57, 1) 96%",
+            "      )",
+            "      center center / 400px 200px no-repeat,",
+            "    url(big-star.png) center no-repeat, rebeccapurple;",
+            "}",
+            ".container {",
+            "  display: grid;",
+            "  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));",
+            "  grid-auto-rows: minmax(100px, auto);",
+            "  gap: 20px;",
+            "}"
+          ]
         }
       ]
     }

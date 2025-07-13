@@ -7,7 +7,6 @@ import {
   safeReadFileContent,
 } from "../share";
 import { inputScheme } from "./input";
-const esmRequire = require("esm")(module);
 
 const builtinToolboxNames = [
   "web",
@@ -47,13 +46,17 @@ export class ToolboxesService {
     return vscode.Uri.joinPath(globalStorageUri, "toolboxes.json");
   }
 
-  getBuiltinToolboxUri(name: string) {
-    return vscode.Uri.joinPath(context.extensionUri, "toolboxes", name);
+  getBuiltinToolboxSrcUri(name: string) {
+    return vscode.Uri.joinPath(context.extensionUri, "src", "toolboxes", name);
+  }
+
+  getBuiltinToolboxOutUri(name: string) {
+    return vscode.Uri.joinPath(context.extensionUri, "out", "toolboxes", name);
   }
 
   async getBuiltinToolbox(name: string): Promise<ITool | undefined> {
     const jsonUri = vscode.Uri.joinPath(
-      this.getBuiltinToolboxUri(name),
+      this.getBuiltinToolboxSrcUri(name),
       "toolbox.json"
     );
 
@@ -95,7 +98,7 @@ export class ToolboxesService {
 
   async getBuiltinTools(name: string): Promise<ITool[]> {
     const jsonUri = vscode.Uri.joinPath(
-      this.getBuiltinToolboxUri(name),
+      this.getBuiltinToolboxSrcUri(name),
       "toolbox.json"
     );
 
@@ -201,10 +204,17 @@ export class ToolboxesService {
     const { type, name } = this.getInfo(tool.uri);
 
     if (type === "builtin") {
-      const toolUri = this.getBuiltinToolboxUri(name);
+      const toolUri = this.getBuiltinToolboxOutUri(name);
       const toolMainUri = vscode.Uri.joinPath(toolUri, tool.main || "index.js");
 
-      return esmRequire(toolMainUri.fsPath);
+      let result;
+      try {
+        result = require(toolMainUri.fsPath);
+      } catch (error) {
+        console.error(error);
+      }
+
+      return result;
     }
   }
 

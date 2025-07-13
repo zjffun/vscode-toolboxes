@@ -6,7 +6,8 @@
     "rootDir": "./",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules"]
 }

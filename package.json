@@ -5,7 +5,7 @@
   "keywords": [
     "toolboxes"
   ],
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "zjffun",
   "engines": {
     "vscode": "^1.59.0"
